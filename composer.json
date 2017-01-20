@@ -1,0 +1,21 @@
+{
+  "name": "juangabreil/php-sdmx",
+  "description": "Library to query sdmx rest apis.",
+  "homepage": "http://github.com/juangabreil/php-sdmx",
+  "license": "MIT",
+  "keywords": ["sdmx", "rest"],
+  "authors": [
+    {
+      "name": "Juan Gabriel Jimenez",
+      "email": "juangabreil@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.6",
+    "rmccue/requests": "v1.7.0"
+  },
+  "type": "library",
+  "autoload": {
+    "psr-0": {"Sdmx": "src/"}
+  }
+}
