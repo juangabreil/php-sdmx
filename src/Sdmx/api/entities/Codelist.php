@@ -2,6 +2,8 @@
 
 namespace Sdmx\api\entities;
 
+use Sdmx\api\util\StringUtils;
+
 /**
  * Class Codelist
  * @package Sdmx\api\entities
@@ -115,7 +117,7 @@ class Codelist
     {
         $str = 'Codelist [' . "\n";
         $str .= '   id=' . $this->getFullIdentifier() . "\n";
-        $str .= '   codes=' . $this->convertArrayToString($this->codes) . "\n";
+        $str .= '   codes=' . StringUtils::convertArrayToString($this->codes) . "\n";
         $str .= ']';
 
         return $str;
@@ -138,17 +140,5 @@ class Codelist
 
         return $codelist;
     }
-
-    private function convertArrayToString($array)
-    {
-        $str = '';
-
-        foreach ($array as $key => $value) {
-            $str .= $key . ' => ' . $value . "\n";
-        }
-
-        return $str;
-    }
-
 
 }

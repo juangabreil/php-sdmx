@@ -2,6 +2,8 @@
 
 namespace Sdmx\api\entities;
 
+use Sdmx\api\util\StringUtils;
+
 /**
  * Class DataflowStructure
  * @package Sdmx\api\entities
@@ -170,6 +172,38 @@ class DataflowStructure
     {
         return $this->dimensions[$id];
     }
+
+    /**
+     * @return string
+     */
+    public function getFullIdentifier()
+    {
+        $dsd = $this->id;
+
+        if ($this->agency !== NULL) {
+            $dsd = $this->agency . '/' . $dsd;
+        }
+
+        if ($this->version !== NULL) {
+            $dsd .= '/' . $this->version;
+        }
+
+        return $dsd;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    function __toString()
+    {
+        $str = 'DSD [' . "\n";
+        $str .= '   id=' . $this->getFullIdentifier() . "\n";
+        $str .= '   name=' . $this->name . "\n";
+        $str .= '   dimensions=' . StringUtils::convertArrayToString($this->dimensions) . "\n";
+
+        return $str;
+    }
+
 
     public function getMeasure()
     {
