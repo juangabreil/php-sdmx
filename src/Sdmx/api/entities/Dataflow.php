@@ -2,6 +2,8 @@
 
 namespace Sdmx\api\entities;
 
+use Sdmx\util\StringUtils;
+
 /**
  * Class Dataflow
  * @package Sdmx\api\entities
@@ -113,7 +115,7 @@ class Dataflow
 
     function __toString()
     {
-        $str = 'Dataflow ['. "\n";
+        $str = 'Dataflow [' . "\n";
         $str .= '   id=' . $this->getFullIdentifier() . "\n";
         $str .= '   name=' . $this->name . "\n";
         $str .= '   dsd=' . $this->dsdIdentifier . "\n";
@@ -123,16 +125,6 @@ class Dataflow
 
     public function getFullIdentifier()
     {
-        $dsd = $this->id;
-
-        if ($this->agency !== NULL) {
-            $dsd = $this->agency . ',' . $dsd;
-        }
-
-        if ($this->version !== NULL) {
-            $dsd .= ',' . $this->version;
-        }
-
-        return $dsd;
+        return StringUtils::joinArrayElements([$this->agency, $this->id, $this->version], '/');
     }
 }

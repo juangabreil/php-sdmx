@@ -2,6 +2,8 @@
 
 namespace Sdmx\api\entities;
 
+use Sdmx\util\StringUtils;
+
 /**
  * Class DsdIdentifier
  * @package Sdmx\api\entities
@@ -89,15 +91,7 @@ class DsdIdentifier
      */
     public function getFullIdentifier()
     {
-        $dsd = $this->id;
-        if ($this->agency !== NULL) {
-            $dsd = $this->agency . '/' . $dsd;
-        }
-        if ($this->version !== NULL) {
-            $dsd .= '/' . $this->version;
-        }
-
-        return $dsd;
+        return StringUtils::joinArrayElements([$this->agency, $this->id, $this->version], '/');
     }
 
     function __toString()

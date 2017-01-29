@@ -2,7 +2,7 @@
 
 namespace Sdmx\api\entities;
 
-use Sdmx\api\util\StringUtils;
+use Sdmx\util\StringUtils;
 
 /**
  * Class DataflowStructure
@@ -178,17 +178,7 @@ class DataflowStructure
      */
     public function getFullIdentifier()
     {
-        $dsd = $this->id;
-
-        if ($this->agency !== NULL) {
-            $dsd = $this->agency . '/' . $dsd;
-        }
-
-        if ($this->version !== NULL) {
-            $dsd .= '/' . $this->version;
-        }
-
-        return $dsd;
+        return StringUtils::joinArrayElements([$this->agency, $this->id, $this->version], '/');
     }
 
     /**

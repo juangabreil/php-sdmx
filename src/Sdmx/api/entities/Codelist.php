@@ -2,7 +2,7 @@
 
 namespace Sdmx\api\entities;
 
-use Sdmx\api\util\StringUtils;
+use Sdmx\util\StringUtils;
 
 /**
  * Class Codelist
@@ -128,17 +128,7 @@ class Codelist
      */
     public function getFullIdentifier()
     {
-        $codelist = $this->id;
-
-        if ($this->agency !== NULL) {
-            $codelist = $this->agency . '/' . $codelist;
-        }
-
-        if ($this->version !== NULL) {
-            $codelist .= '/' . $this->version;
-        }
-
-        return $codelist;
+        return StringUtils::joinArrayElements([$this->agency, $this->id, $this->version], '/');
     }
 
 }
