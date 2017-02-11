@@ -22,12 +22,12 @@ class QueryBuilder
     }
 
     /**
-     * @param string $dataflow
      * @param string $agency
+     * @param string $dataflow
      * @param string $version
      * @return string
      */
-    public function getDataflowQuery($dataflow, $agency, $version)
+    public function getDataflowQuery($agency, $dataflow, $version)
     {
         $dataflowKey = StringUtils::joinArrayElements([$agency, $dataflow, $version], '/');
 

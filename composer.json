@@ -2,7 +2,7 @@
   "name": "juangabreil/php-sdmx",
   "description": "Library to query sdmx rest apis.",
   "homepage": "http://github.com/juangabreil/php-sdmx",
-  "license": "MIT",
+  "license": "EUPL",
   "keywords": ["sdmx", "rest"],
   "authors": [
     {
@@ -14,8 +14,18 @@
     "php": ">=5.6",
     "rmccue/requests": "v1.7.0"
   },
+  "require-dev": {
+    "phpunit/phpunit": "5.7.13"
+  },
   "type": "library",
   "autoload": {
-    "psr-0": {"Sdmx": "src/"}
+    "psr-0": {
+      "Sdmx\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-0": {
+      "Sdmx\\Tests\\": "tests/"
+    }
   }
 }

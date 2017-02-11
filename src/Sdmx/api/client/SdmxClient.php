@@ -11,7 +11,7 @@ interface SdmxClient
 {
     /**
      * Gets all dataflows.
-     * @return array[string]Dataflow
+     * @return Dataflow[]
      */
     public function getDataflows();
 
@@ -37,7 +37,7 @@ interface SdmxClient
      * @param string $codelist
      * @param string $agency
      * @param string $version
-     * @return array[string]string
+     * @return string[]
      */
     public function getCodes($codelist, $agency, $version);
 }

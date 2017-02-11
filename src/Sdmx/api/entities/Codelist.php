@@ -27,7 +27,7 @@ class Codelist
     private $version;
 
     /**
-     * @var array[string]string
+     * @var string[]
      */
     private $codes;
 
@@ -36,7 +36,7 @@ class Codelist
      * @param string $id
      * @param string $agency
      * @param string $version
-     * @param array $codes
+     * @param string[] $codes
      */
     public function __construct($id, $agency, $version, array $codes)
     {
@@ -45,6 +45,7 @@ class Codelist
         $this->version = $version;
         $this->codes = $codes;
     }
+
 
     /**
      * @return string
@@ -95,7 +96,7 @@ class Codelist
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getCodes()
     {
@@ -103,7 +104,7 @@ class Codelist
     }
 
     /**
-     * @param array $codes
+     * @param string[] $codes
      */
     public function setCodes($codes)
     {

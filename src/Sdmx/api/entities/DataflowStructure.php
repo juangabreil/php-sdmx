@@ -31,7 +31,7 @@ class DataflowStructure
      */
     private $timeDimension;
     /**
-     * @var array[string]Dimension
+     * @var Dimension[]
      */
     private $dimensions;
 
@@ -124,7 +124,7 @@ class DataflowStructure
     }
 
     /**
-     * @return array
+     * @return Dimension[]
      */
     public function getDimensions()
     {
@@ -132,7 +132,7 @@ class DataflowStructure
     }
 
     /**
-     * @param array $dimensions
+     * @param Dimension[] $dimensions
      */
     public function setDimensions($dimensions)
     {
@@ -140,7 +140,7 @@ class DataflowStructure
     }
 
     /**
-     * @return array[Dimension]
+     * @return Dimension[]
      */
     public function getListOfDimensions()
     {

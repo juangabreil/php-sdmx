@@ -3,7 +3,7 @@
 namespace Sdmx\api\client\rest;
 
 
-use Requests;
+use Sdmx\api\client\http\HttpClient;
 use Sdmx\api\client\SdmxClient;
 use Sdmx\api\entities\Dataflow;
 use Sdmx\api\entities\DataflowStructure;
@@ -32,36 +32,37 @@ class RestSdmxClient implements SdmxClient
     private $name;
 
     /**
-     * @var QueryBuilder
+     * @var QueryBuilder $queryBuilder
      */
     private $queryBuilder;
 
     /**
-     * @var bool $supportsCompression
+     * @var HttpClient $httpClient
      */
-    private $supportsCompression;
+    private $httpClient;
 
     /**
      * RestSdmxClient constructor.
      * @param string $name
      * @param QueryBuilder $queryBuilder
-     * @param bool $supportsCompression
+     * @param HttpClient $httpClient
      */
-    public function __construct($name, QueryBuilder $queryBuilder, $supportsCompression)
+    public function __construct($name, QueryBuilder $queryBuilder, HttpClient $httpClient)
     {
         $this->name = $name;
         $this->queryBuilder = $queryBuilder;
-        $this->supportsCompression = $supportsCompression;
+        $this->httpClient = $httpClient;
     }
+
 
     /**
      * Gets all dataflows.
-     * @return array[string]Dataflow
+     * @return Dataflow[]
      */
     public function getDataflows()
     {
-        $url = $this->queryBuilder->getDataflowQuery(self::ALL_FLOWS, self::ALL_AGENCIES, self::LATEST_VERSION);
-        $response = Requests::get($url);
+        $url = $this->queryBuilder->getDataflowQuery(self::ALL_AGENCIES, self::ALL_FLOWS, self::LATEST_VERSION);
+        $response = $this->httpClient->get($url);
     }
 
     /**
@@ -92,7 +93,7 @@ class RestSdmxClient implements SdmxClient
      * @param string $codelist
      * @param string $agency
      * @param string $version
-     * @return array[string]string
+     * @return string[]
      */
     public function getCodes($codelist, $agency, $version)
     {
