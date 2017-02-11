@@ -2,7 +2,7 @@
   "name": "juangabreil/php-sdmx",
   "description": "Library to query sdmx rest apis.",
   "homepage": "http://github.com/juangabreil/php-sdmx",
-  "license": "EUPL",
+  "license": "MIT",
   "keywords": ["sdmx", "rest"],
   "authors": [
     {
