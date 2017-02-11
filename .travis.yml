@@ -6,7 +6,7 @@ php:
 
 before_script: composer install
 
-script: phpunit
+script: vendor/bin/phpunit
 
 matrix:
   fast_finish: true
