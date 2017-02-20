@@ -4,10 +4,12 @@ namespace Sdmx\api\client\rest;
 
 
 use Sdmx\api\client\http\HttpClient;
+use Sdmx\api\client\rest\query\QueryBuilder;
 use Sdmx\api\client\SdmxClient;
 use Sdmx\api\entities\Dataflow;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\DsdIdentifier;
+use Sdmx\api\parser\DataflowParser;
 
 class RestSdmxClient implements SdmxClient
 {
@@ -42,16 +44,24 @@ class RestSdmxClient implements SdmxClient
     private $httpClient;
 
     /**
+     * @var DataflowParser $dataflowParser
+     */
+    private $dataflowParser;
+
+
+    /**
      * RestSdmxClient constructor.
      * @param string $name
      * @param QueryBuilder $queryBuilder
      * @param HttpClient $httpClient
+     * @param DataflowParser $dataflowParser
      */
-    public function __construct($name, QueryBuilder $queryBuilder, HttpClient $httpClient)
+    public function __construct($name, QueryBuilder $queryBuilder, HttpClient $httpClient, DataflowParser $dataflowParser)
     {
         $this->name = $name;
         $this->queryBuilder = $queryBuilder;
         $this->httpClient = $httpClient;
+        $this->dataflowParser = $dataflowParser;
     }
 
 
@@ -63,6 +73,8 @@ class RestSdmxClient implements SdmxClient
     {
         $url = $this->queryBuilder->getDataflowQuery(self::ALL_AGENCIES, self::ALL_FLOWS, self::LATEST_VERSION);
         $response = $this->httpClient->get($url);
+
+        return $this->dataflowParser->parse($response);
     }
 
     /**
@@ -74,7 +86,10 @@ class RestSdmxClient implements SdmxClient
      */
     public function getDataflow($dataflow, $agency, $version)
     {
-        // TODO: Implement getDataflow() method.
+        $url = $this->queryBuilder->getDataflowQuery($agency, $dataflow, $version);
+        $response = $this->httpClient->get($url);
+        $dataflows = $this->dataflowParser->parse($response);
+        return count($dataflows) > 0 ? $dataflows[0] : null;
     }
 
     /**

@@ -1,11 +1,11 @@
 <?php
 
-namespace Sdmx\api\client\rest;
+namespace Sdmx\api\client\rest\query;
 
 
 use Sdmx\util\StringUtils;
 
-class QueryBuilder
+class SdmxQueryBuilder implements QueryBuilder
 {
     /**
      * @var string $baseUrl
@@ -33,6 +33,4 @@ class QueryBuilder
 
         return StringUtils::joinArrayElements([$this->baseUrl, 'dataflow', $dataflowKey], '/');
     }
-
-
 }
