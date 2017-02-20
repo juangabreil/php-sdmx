@@ -1,12 +1,11 @@
 language: php
-
 php:
-  - 5.6
-  - hhvm
-
+- 5.6
+- hhvm
 before_script: composer install
-
 script: vendor/bin/phpunit
-
 matrix:
   fast_finish: true
+notifications:
+  slack:
+    secure: EKd+ZvziorDmnq+Hngvj/mSc2ZcWkwB/tlHzMwifMgIMEKzwqQc8pQiSgoB3t4d+3T7pn0ROFVtB7wxb5If61PFrHMEGO2KkZugXU8RYWs8+fl/07rcN4qRLR0nS6j3uRlXwXQWzepxBgM0MVfdT98L9fxdFfWny0MTCuFZulRWzEq1Y/yMEy4SzD4YiCzjs+t2eO0LQP2QM5N0rNVcDlP5gfE8YaHbKQgJVtUFE0skMRCrv7cKWE6/teBBs1xj1DiqCzXvRhRNAuE7s2q9CjMWJeHOuW+EdhZkK5CwWB8ujwt7uhEvGlKTHkbB3vqLNzE+JPG5CIPvlONmRs6HR5uVstg6hnZPLgwa26AvEkMHHesKm3xmVvsI/te7AXGSSyy46Le/PIaohCwLjifV4tNe5s9OIbgHI2Pe4yp7itlqebkUlWzKS6AOdcBnY4eEjp5ND2sv5nVX7NNJoaRCR7qoEXUsNht7EobDXYehUBJ2gepnLBcGoN4alboZnpk23R3BK1e5+DguTJzuZPMSVcbtKq1LGUw87yc3Gb/sTROdVYaJh7Hj59FbcwTL7ii3kUGqgv97XbyBDmS/vWd3rujnLBxqbA1aCPLjRE3DVgfxtyAUJ3/r7wt1fhmkt5M2/CXrS0oXpxFuZUtRjFdVUqKwGVlcuO9bq6qTmOiAeRDM=
