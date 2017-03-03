@@ -16,7 +16,10 @@ use Sdmx\api\client\rest\query\QueryBuilder;
 use Sdmx\api\client\rest\RestSdmxClient;
 use Sdmx\api\client\SdmxClient;
 use Sdmx\api\entities\Dataflow;
+use Sdmx\api\entities\DataflowStructure;
+use Sdmx\api\entities\DsdIdentifier;
 use Sdmx\api\parser\DataflowParser;
+use Sdmx\api\parser\DataStructureParser;
 
 
 class RestSdmxClientTest extends TestCase
@@ -38,6 +41,10 @@ class RestSdmxClientTest extends TestCase
      * @var PHPUnit_Framework_MockObject_MockObject $dataflowParser
      */
     private $dataflowParser;
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject $datastructureParser
+     */
+    private $datastructureParser;
 
     public function setUp()
     {
@@ -45,7 +52,8 @@ class RestSdmxClientTest extends TestCase
             ->getMock();
         $this->httpClient = $this->getMockBuilder(HttpClient::class)->getMock();
         $this->dataflowParser = $this->getMockBuilder(DataflowParser::class)->getMock();
-        $this->client = new RestSdmxClient("rest", $this->queryBuilderMock, $this->httpClient, $this->dataflowParser);
+        $this->datastructureParser = $this->getMockBuilder(DataStructureParser::class)->getMock();
+        $this->client = new RestSdmxClient("rest", $this->queryBuilderMock, $this->httpClient, $this->dataflowParser, $this->datastructureParser);
     }
 
     public function testGetDataflows()
@@ -143,4 +151,141 @@ class RestSdmxClientTest extends TestCase
 
         $this->assertNull($dataflow);
     }
+
+    public function testGetDatastructure()
+    {
+        $generatedQuery = 'SomeQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDsdQuery')
+            ->with(
+                'SomeFlow',
+                'SomeAgency',
+                'SomeVersion',
+                false
+            )
+            ->willReturn($generatedQuery);
+
+        $XmlResponse = 'SomeXmlData';
+        $this->httpClient
+            ->expects($this->once())
+            ->method('get')
+            ->with($generatedQuery)
+            ->willReturn($XmlResponse);
+
+        $parsedDataflowStructures = array(new DataflowStructure());
+        $this->datastructureParser
+            ->expects($this->once())
+            ->method('parse')
+            ->with($XmlResponse)
+            ->willReturn($parsedDataflowStructures);
+
+        $dsd = new DsdIdentifier('SomeFlow', 'SomeAgency', 'SomeVersion');
+        $dataflowStructure = $this->client->getDataflowStructure($dsd, false);
+
+        $this->assertSame($parsedDataflowStructures[0], $dataflowStructure);
+    }
+
+    public function testGetDatastructureWontGetFullDsdByDefault()
+    {
+        $generatedQuery = 'SomeQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDsdQuery')
+            ->with(
+                'SomeFlow',
+                'SomeAgency',
+                'SomeVersion',
+                false
+            )
+            ->willReturn($generatedQuery);
+
+        $XmlResponse = 'SomeXmlData';
+        $this->httpClient
+            ->expects($this->once())
+            ->method('get')
+            ->with($generatedQuery)
+            ->willReturn($XmlResponse);
+
+        $parsedDataflowStructures = array(new DataflowStructure());
+        $this->datastructureParser
+            ->expects($this->once())
+            ->method('parse')
+            ->with($XmlResponse)
+            ->willReturn($parsedDataflowStructures);
+
+        $dsd = new DsdIdentifier('SomeFlow', 'SomeAgency', 'SomeVersion');
+        $dataflowStructure = $this->client->getDataflowStructure($dsd);
+
+        $this->assertSame($parsedDataflowStructures[0], $dataflowStructure);
+    }
+
+    public function testGetDatastructureWithFullDsd()
+    {
+        $generatedQuery = 'SomeQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDsdQuery')
+            ->with(
+                'SomeFlow',
+                'SomeAgency',
+                'SomeVersion',
+                true
+            )
+            ->willReturn($generatedQuery);
+
+        $XmlResponse = 'SomeXmlData';
+        $this->httpClient
+            ->expects($this->once())
+            ->method('get')
+            ->with($generatedQuery)
+            ->willReturn($XmlResponse);
+
+        $parsedDataflowStructures = array(new DataflowStructure());
+        $this->datastructureParser
+            ->expects($this->once())
+            ->method('parse')
+            ->with($XmlResponse)
+            ->willReturn($parsedDataflowStructures);
+
+        $dsd = new DsdIdentifier('SomeFlow', 'SomeAgency', 'SomeVersion');
+        $dataflowStructure = $this->client->getDataflowStructure($dsd, true);
+
+        $this->assertSame($parsedDataflowStructures[0], $dataflowStructure);
+    }
+
+    public function testGetNullDatastructureBecauseNothingWasParsed()
+    {
+        $generatedQuery = 'SomeQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDsdQuery')
+            ->with(
+                'SomeFlow',
+                'SomeAgency',
+                'SomeVersion',
+                false
+            )
+            ->willReturn($generatedQuery);
+
+        $XmlResponse = 'SomeXmlData';
+        $this->httpClient
+            ->expects($this->once())
+            ->method('get')
+            ->with($generatedQuery)
+            ->willReturn($XmlResponse);
+
+        $parsedDataflowStructures = array();
+        $this->datastructureParser
+            ->expects($this->once())
+            ->method('parse')
+            ->with($XmlResponse)
+            ->willReturn($parsedDataflowStructures);
+
+        $dsd = new DsdIdentifier('SomeFlow', 'SomeAgency', 'SomeVersion');
+        $dataflowStructure = $this->client->getDataflowStructure($dsd, false);
+
+        $this->assertNull($dataflowStructure);
+    }
+
 }

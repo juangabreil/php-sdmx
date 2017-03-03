@@ -110,10 +110,6 @@ class RestSdmxClient implements SdmxClient
      */
     public function getDataflowStructure(DsdIdentifier $dsd, $full = false)
     {
-        if ($dsd == NULL) {
-            throw new InvalidArgumentException('Dsd cannot be null!');
-        }
-
         $url = $this->queryBuilder->getDsdQuery($dsd->getId(), $dsd->getAgency(), $dsd->getVersion(), $full);
         $response = $this->httpClient->get($url);
         $dataflowStructures = $this->datastructureParser->parse($response);
