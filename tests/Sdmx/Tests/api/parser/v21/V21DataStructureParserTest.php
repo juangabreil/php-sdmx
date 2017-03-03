@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jgjimene
- * Date: 25/02/2017
- * Time: 19:25
- */
 
 namespace Sdmx\Tests\api\parser\v21;
 
@@ -113,9 +107,9 @@ class V21DataStructureParserTest extends TestCase
     }
 
     /**
-     * @param $dimensions
+     * @param Dimension[] $dimensions
      */
-    private function checkRefCodes($dimensions)
+    private function checkRefCodes(array $dimensions)
     {
         $codes = ['PER' => 'Number of persons',
             'FTE' => 'Full-time equivalent',
