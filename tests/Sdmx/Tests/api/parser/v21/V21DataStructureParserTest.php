@@ -14,10 +14,10 @@ use Sdmx\api\entities\Codelist;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\Dimension;
 use Sdmx\api\parser\DataStructureParser;
-use Sdmx\api\parser\v21\XmlDataStructureParser;
+use Sdmx\api\parser\v21\V21DataStructureParser;
 
 
-class XmlDataStructureParserTest extends TestCase
+class V21DataStructureParserTest extends TestCase
 {
     /**
      * @var DataStructureParser $parser
@@ -44,7 +44,7 @@ class XmlDataStructureParserTest extends TestCase
 
     protected function setUp()
     {
-        $this->parser = new XmlDataStructureParser();
+        $this->parser = new V21DataStructureParser();
     }
 
     /**

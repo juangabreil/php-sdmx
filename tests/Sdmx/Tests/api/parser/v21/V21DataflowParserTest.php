@@ -5,9 +5,9 @@ namespace Sdmx\Tests\api\parser\v21;
 use PHPUnit\Framework\TestCase;
 use Sdmx\api\entities\Dataflow;
 use Sdmx\api\parser\DataflowParser;
-use Sdmx\api\parser\v21\XmlDataflowParser;
+use Sdmx\api\parser\v21\V21DataflowParser;
 
-class XmlDataflowParserTest extends TestCase
+class V21DataflowParserTest extends TestCase
 {
     /**
      * @var DataflowParser $parser
@@ -73,7 +73,7 @@ class XmlDataflowParserTest extends TestCase
 
     protected function setUp()
     {
-        $this->parser = new XmlDataflowParser();
+        $this->parser = new V21DataflowParser();
     }
 
 

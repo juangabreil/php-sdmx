@@ -8,7 +8,7 @@ use Sdmx\api\entities\DsdIdentifier;
 use Sdmx\api\parser\DataflowParser;
 use SimpleXMLElement;
 
-class XmlDataflowParser implements DataflowParser
+class V21DataflowParser implements DataflowParser
 {
     const ID = 'id';
     const AGENCY_ID = 'agencyID';
@@ -22,10 +22,6 @@ class XmlDataflowParser implements DataflowParser
     {
         $result = array();
         $xml = new SimpleXMLElement($data);
-        /*$namespaces = $xml->getNamespaces(true);
-        foreach ($namespaces as $ns => $schemaUrl) {
-            $xml->registerXPathNamespace($ns, $schemaUrl);
-        }*/
 
         $flows = $xml->xpath('//mes:Structure/mes:Structures/str:Dataflows/str:Dataflow');
         foreach ($flows as $flow) {

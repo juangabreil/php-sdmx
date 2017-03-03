@@ -9,7 +9,7 @@ use Sdmx\api\entities\Dimension;
 use Sdmx\api\parser\DataStructureParser;
 use SimpleXMLElement;
 
-class XmlDataStructureParser implements DataStructureParser
+class V21DataStructureParser implements DataStructureParser
 {
 
     /**
