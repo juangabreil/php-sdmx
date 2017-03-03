@@ -30,7 +30,7 @@ interface SdmxClient
      * @param bool $full if true, for 2.1 providers it retrieves the full dsd, with all the codelists.
      * @return DataflowStructure
      */
-    public function getDataflowStructure($dsd, $full = false);
+    public function getDataflowStructure(DsdIdentifier $dsd, $full = false);
 
     /**
      * Gets all the codes from this provider for a given codelist.

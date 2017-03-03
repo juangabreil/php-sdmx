@@ -30,21 +30,6 @@ class Dimension
     private $name;
 
     /**
-     * Dimension constructor.
-     * @param string $id
-     * @param int $position
-     * @param Codelist $codelist
-     * @param string $name
-     */
-    public function __construct($id, $position, Codelist $codelist, $name)
-    {
-        $this->id = $id;
-        $this->position = $position;
-        $this->codelist = $codelist;
-        $this->name = $name;
-    }
-
-    /**
      * @return string
      */
     public function getId()

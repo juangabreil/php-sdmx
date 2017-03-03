@@ -22,10 +22,10 @@ class XmlDataflowParser implements DataflowParser
     {
         $result = array();
         $xml = new SimpleXMLElement($data);
-        $namespaces = $xml->getNamespaces(true);
+        /*$namespaces = $xml->getNamespaces(true);
         foreach ($namespaces as $ns => $schemaUrl) {
             $xml->registerXPathNamespace($ns, $schemaUrl);
-        }
+        }*/
 
         $flows = $xml->xpath('//mes:Structure/mes:Structures/str:Dataflows/str:Dataflow');
         foreach ($flows as $flow) {

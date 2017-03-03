@@ -33,17 +33,10 @@ class Codelist
 
     /**
      * Codelist constructor.
-     * @param string $id
-     * @param string $agency
-     * @param string $version
-     * @param string[] $codes
      */
-    public function __construct($id, $agency, $version, array $codes)
+    public function __construct()
     {
-        $this->id = $id;
-        $this->agency = $agency;
-        $this->version = $version;
-        $this->codes = $codes;
+        $this->codes = array();
     }
 
 

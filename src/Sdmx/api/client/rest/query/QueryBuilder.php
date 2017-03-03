@@ -12,4 +12,13 @@ interface QueryBuilder
      * @return string
      */
     public function getDataflowQuery($agency, $dataflow, $version);
+
+    /**
+     * @param string $id
+     * @param string $agency
+     * @param string $version
+     * @param boolean $full
+     * @return string
+     */
+    public function getDsdQuery($id, $agency, $version, $full);
 }

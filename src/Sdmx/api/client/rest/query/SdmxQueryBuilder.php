@@ -33,4 +33,19 @@ class SdmxQueryBuilder implements QueryBuilder
 
         return StringUtils::joinArrayElements([$this->baseUrl, 'dataflow', $dataflowKey], '/');
     }
+
+    /**
+     * @param string $id
+     * @param string $agency
+     * @param string $version
+     * @param boolean $full
+     * @return string
+     */
+    public function getDsdQuery($id, $agency, $version, $full)
+    {
+        $dataflowKey = StringUtils::joinArrayElements([$agency, $id, $version == '' ? null : $version], '/');
+        $queryString = $full ? '?references=children' : '';
+
+        return StringUtils::joinArrayElements([$this->baseUrl, 'datastructure', $dataflowKey], '/') . $queryString;
+    }
 }

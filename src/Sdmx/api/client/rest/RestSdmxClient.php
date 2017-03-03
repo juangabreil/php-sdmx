@@ -3,6 +3,7 @@
 namespace Sdmx\api\client\rest;
 
 
+use InvalidArgumentException;
 use Sdmx\api\client\http\HttpClient;
 use Sdmx\api\client\rest\query\QueryBuilder;
 use Sdmx\api\client\SdmxClient;
@@ -10,6 +11,7 @@ use Sdmx\api\entities\Dataflow;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\DsdIdentifier;
 use Sdmx\api\parser\DataflowParser;
+use Sdmx\api\parser\DataStructureParser;
 
 class RestSdmxClient implements SdmxClient
 {
@@ -48,6 +50,11 @@ class RestSdmxClient implements SdmxClient
      */
     private $dataflowParser;
 
+    /**
+     * @var DataStructureParser $datastructureParser
+     */
+    private $datastructureParser;
+
 
     /**
      * RestSdmxClient constructor.
@@ -55,13 +62,15 @@ class RestSdmxClient implements SdmxClient
      * @param QueryBuilder $queryBuilder
      * @param HttpClient $httpClient
      * @param DataflowParser $dataflowParser
+     * @param DataStructureParser $datastructureParser
      */
-    public function __construct($name, QueryBuilder $queryBuilder, HttpClient $httpClient, DataflowParser $dataflowParser)
+    public function __construct($name, QueryBuilder $queryBuilder, HttpClient $httpClient, DataflowParser $dataflowParser, DataStructureParser $datastructureParser)
     {
         $this->name = $name;
         $this->queryBuilder = $queryBuilder;
         $this->httpClient = $httpClient;
         $this->dataflowParser = $dataflowParser;
+        $this->datastructureParser = $datastructureParser;
     }
 
 
@@ -97,10 +106,19 @@ class RestSdmxClient implements SdmxClient
      * @param DsdIdentifier $dsd
      * @param bool $full if true, for 2.1 providers it retrieves the full dsd, with all the codelists.
      * @return DataflowStructure
+     * @throws InvalidArgumentException
      */
-    public function getDataflowStructure($dsd, $full = false)
+    public function getDataflowStructure(DsdIdentifier $dsd, $full = false)
     {
-        // TODO: Implement getDataflowStructure() method.
+        if ($dsd == NULL) {
+            throw new InvalidArgumentException('Dsd cannot be null!');
+        }
+
+        $url = $this->queryBuilder->getDsdQuery($dsd->getId(), $dsd->getAgency(), $dsd->getVersion(), $full);
+        $response = $this->httpClient->get($url);
+        $dataflowStructures = $this->datastructureParser->parse($response);
+
+        return count($dataflowStructures) > 0 ? $dataflowStructures[0] : null;
     }
 
     /**
