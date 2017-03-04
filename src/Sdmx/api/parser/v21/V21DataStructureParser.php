@@ -52,7 +52,7 @@ class V21DataStructureParser implements DataStructureParser
         $result = [];
         foreach ($codelists as $codelist) {
             $codelistName = $this->getCodelistName($codelist);
-            $result[$codelistName] = $this->codelistParser->parse($codelist);
+            $result[$codelistName] = $this->codelistParser->parseCodesFromNode($codelist);
         }
 
         return $result;

@@ -13,7 +13,7 @@ class V21CodelistParser implements CodelistParser
      * @param SimpleXMLElement $data
      * @return string[]
      */
-    public function parse(SimpleXMLElement $data)
+    public function parseCodesFromNode(SimpleXMLElement $data)
     {
         $result = [];
 
@@ -27,5 +27,18 @@ class V21CodelistParser implements CodelistParser
         }
 
         return $result;
+    }
+
+    /**
+     * Parses codelist into a hash indexed by codelist name and containing an array of codes
+     * @param string $data
+     * @return string[]
+     */
+    public function parseCodes($data)
+    {
+        $xml = new SimpleXMLElement($data);
+        $codelist = $xml->xpath('//mes:Structure/mes:Structures/str:Codelists/str:Codelist')[0];
+
+        return $this->parseCodesFromNode($codelist);
     }
 }

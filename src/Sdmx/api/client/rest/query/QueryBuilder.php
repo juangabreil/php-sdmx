@@ -21,4 +21,12 @@ interface QueryBuilder
      * @return string
      */
     public function getDsdQuery($id, $agency, $version, $full);
+
+    /**
+     * @param string $codelist
+     * @param string $agency
+     * @param string $version
+     * @return string
+     */
+    public function getCodelistQuery($codelist, $agency, $version);
 }

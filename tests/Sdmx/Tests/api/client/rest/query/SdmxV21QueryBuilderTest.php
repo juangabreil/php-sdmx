@@ -4,21 +4,21 @@ namespace Sdmx\Tests\api\client\rest\query;
 
 
 use PHPUnit\Framework\TestCase;
-use Sdmx\api\client\rest\query\SdmxQueryBuilder;
+use Sdmx\api\client\rest\query\SdmxV21QueryBuilder;
 
 
-class SdmxQueryBuilderTest extends TestCase
+class SdmxV21QueryBuilderTest extends TestCase
 {
     const BASE_URL = 'http://some.base.url';
 
     /**
-     * @var SdmxQueryBuilder $sdmxQueryBuilder
+     * @var SdmxV21QueryBuilder $sdmxQueryBuilder
      */
     private $sdmxQueryBuilder;
 
     protected function setUp()
     {
-        $this->sdmxQueryBuilder = new SdmxQueryBuilder(self::BASE_URL);
+        $this->sdmxQueryBuilder = new SdmxV21QueryBuilder(self::BASE_URL);
     }
 
     public function testGetDataflowQuery()
@@ -53,6 +53,12 @@ class SdmxQueryBuilderTest extends TestCase
         $this->assertEquals($expected, $query);
     }
 
+    public function testGetCodelistQuery()
+    {
+        $query = $this->sdmxQueryBuilder->getCodelistQuery('CL_NUMBERS', 'UNESCO', 'latest');
 
+        $expected = self::BASE_URL . '/codelist/UNESCO/CL_NUMBERS/latest';
+        $this->assertEquals($expected, $query);
+    }
 
 }

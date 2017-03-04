@@ -18,6 +18,7 @@ use Sdmx\api\client\SdmxClient;
 use Sdmx\api\entities\Dataflow;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\DsdIdentifier;
+use Sdmx\api\parser\CodelistParser;
 use Sdmx\api\parser\DataflowParser;
 use Sdmx\api\parser\DataStructureParser;
 
@@ -45,6 +46,10 @@ class RestSdmxClientTest extends TestCase
      * @var PHPUnit_Framework_MockObject_MockObject $datastructureParser
      */
     private $datastructureParser;
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject $codelistParser
+     */
+    private $codelistParser;
 
     public function setUp()
     {
@@ -53,7 +58,8 @@ class RestSdmxClientTest extends TestCase
         $this->httpClient = $this->getMockBuilder(HttpClient::class)->getMock();
         $this->dataflowParser = $this->getMockBuilder(DataflowParser::class)->getMock();
         $this->datastructureParser = $this->getMockBuilder(DataStructureParser::class)->getMock();
-        $this->client = new RestSdmxClient("rest", $this->queryBuilderMock, $this->httpClient, $this->dataflowParser, $this->datastructureParser);
+        $this->codelistParser = $this->getMockBuilder(CodelistParser::class)->getMock();
+        $this->client = new RestSdmxClient("rest", $this->queryBuilderMock, $this->httpClient, $this->dataflowParser, $this->datastructureParser, $this->codelistParser);
     }
 
     public function testGetDataflows()
@@ -286,6 +292,38 @@ class RestSdmxClientTest extends TestCase
         $dataflowStructure = $this->client->getDataflowStructure($dsd, false);
 
         $this->assertNull($dataflowStructure);
+    }
+
+    public function testGetCodelist()
+    {
+        $generatedQuery = 'SomeQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getCodelistQuery')
+            ->with(
+                'SomeCodelist',
+                'SomeAgency',
+                'SomeVersion'
+            )
+            ->willReturn($generatedQuery);
+
+        $XmlResponse = 'SomeXmlData';
+        $this->httpClient
+            ->expects($this->once())
+            ->method('get')
+            ->with($generatedQuery)
+            ->willReturn($XmlResponse);
+
+        $parsedCodelist = [];
+        $this->codelistParser
+            ->expects($this->once())
+            ->method('parseCodes')
+            ->with($XmlResponse)
+            ->willReturn($parsedCodelist);
+
+        $codelist = $this->client->getCodes('SomeCodelist', 'SomeAgency', 'SomeVersion');
+
+        $this->assertSame($parsedCodelist, $codelist);
     }
 
 }

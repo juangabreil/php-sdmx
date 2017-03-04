@@ -15,10 +15,19 @@ class V21CodelistParserTest extends TestCase
      */
     private $codelistParser;
 
-    public function testParseCodelist()
+    public function testParseCodelistNode()
     {
         $data = new \SimpleXMLElement(ParserFixtures::$CODE_LISTS);
-        $codelist = $this->codelistParser->parse($data->xpath('//mes:Structure/str:Codelist')[0]);
+        $node = $data->xpath('//mes:Structure/mes:Structures/str:Codelists/str:Codelist')[0];
+        $codelist = $this->codelistParser->parseCodesFromNode($node);
+
+        $this->assertSame('Zero', $codelist['0']);
+        $this->assertSame('Fifteen', $codelist['15']);
+    }
+
+    public function testParseCodelistResponse()
+    {
+        $codelist = $this->codelistParser->parseCodes(ParserFixtures::$CODE_LISTS);
 
         $this->assertSame('Zero', $codelist['0']);
         $this->assertSame('Fifteen', $codelist['15']);
@@ -28,7 +37,5 @@ class V21CodelistParserTest extends TestCase
     {
         $this->codelistParser = new V21CodelistParser();
     }
-
-
 
 }

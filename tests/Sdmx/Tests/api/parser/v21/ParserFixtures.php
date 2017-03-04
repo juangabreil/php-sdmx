@@ -56,75 +56,86 @@ XML;
 
     public static $CODE_LISTS = <<<XML
 <mes:Structure xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mes="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:str="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:com="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common" xsi:schemaLocation="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message https://registry.sdmx.org/schemas/v2_1/SDMXMessage.xsd">
-    <str:Codelist urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=SDMX:CL_DECIMALS(1.0)" isExternalReference="false" agencyID="SDMX" id="CL_DECIMALS" isFinal="true" version="1.0">
-        <com:Name xml:lang="en">Decimals</com:Name>
-        <com:Name xml:lang="es">Decimales</com:Name>
-        <com:Description xml:lang="en">This code list provides a list of values showing the number of decimal digits used in the data. This code list was first released in 2009. More information about this code list and SDMX code lists in general (e.g. list of generic codes for expressing general concepts like "Total", "Unknown", etc.; syntaxes for the creation of further codes; general guidelines for the creation of SDMX code lists) can be found at this address: http://sdmx.org/?page_id=1513.</com:Description>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).0" id="0">
-            <com:Name xml:lang="en">Zero</com:Name>
-            <com:Name xml:lang="es">cero</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).1" id="1">
-            <com:Name xml:lang="en">One</com:Name>
-            <com:Name xml:lang="es">uno</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).2" id="2">
-            <com:Name xml:lang="en">Two</com:Name>
-            <com:Name xml:lang="es">dos</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).3" id="3">
-            <com:Name xml:lang="en">Three</com:Name>
-            <com:Name xml:lang="es">tres</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).4" id="4">
-            <com:Name xml:lang="en">Four</com:Name>
-            <com:Name xml:lang="es">cuatro</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).5" id="5">
-            <com:Name xml:lang="en">Five</com:Name>
-            <com:Name xml:lang="es">cinco</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).6" id="6">
-            <com:Name xml:lang="en">Six</com:Name>
-            <com:Name xml:lang="es">seis</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).7" id="7">
-            <com:Name xml:lang="en">Seven</com:Name>
-            <com:Name xml:lang="es">siete</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).8" id="8">
-            <com:Name xml:lang="en">Eight</com:Name>
-            <com:Name xml:lang="es">ocho</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).9" id="9">
-            <com:Name xml:lang="en">Nine</com:Name>
-            <com:Name xml:lang="es">nueve</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).10" id="10">
-            <com:Name xml:lang="en">Ten</com:Name>
-            <com:Name xml:lang="es">diez</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).11" id="11">
-            <com:Name xml:lang="en">Eleven</com:Name>
-            <com:Name xml:lang="es">once</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).12" id="12">
-            <com:Name xml:lang="en">Twelve</com:Name>
-            <com:Name xml:lang="es">doce</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).13" id="13">
-            <com:Name xml:lang="en">Thirteen</com:Name>
-            <com:Name xml:lang="es">trece</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).14" id="14">
-            <com:Name xml:lang="en">Fourteen</com:Name>
-            <com:Name xml:lang="es">catorce</com:Name>
-        </str:Code>
-        <str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).15" id="15">
-            <com:Name xml:lang="en">Fifteen</com:Name>
-            <com:Name xml:lang="es">quince</com:Name>
-        </str:Code>
-    </str:Codelist>
+	<mes:Header>
+		<mes:ID>IDREFbeaedcaf-4943-40b0-970e-8b2dc50c7b56</mes:ID>
+		<mes:Test>false</mes:Test>
+		<mes:Prepared>2017-03-04T17:08:32</mes:Prepared>
+		<mes:Sender id="UNESCO-Registry" />
+		<mes:Receiver id="not_supplied" />
+	</mes:Header>
+	<mes:Structures>
+		<str:Codelists>
+			<str:Codelist urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=SDMX:CL_DECIMALS(1.0)" isExternalReference="false" agencyID="SDMX" id="CL_DECIMALS" isFinal="true" version="1.0">
+				<com:Name xml:lang="en">Decimals</com:Name>
+				<com:Name xml:lang="es">Decimales</com:Name>
+				<com:Description xml:lang="en">This code list provides a list of values showing the number of decimal digits used in the data. This code list was first released in 2009. More information about this code list and SDMX code lists in general (e.g. list of generic codes for expressing general concepts like "Total", "Unknown", etc.; syntaxes for the creation of further codes; general guidelines for the creation of SDMX code lists) can be found at this address: http://sdmx.org/?page_id=1513.</com:Description>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).0" id="0">
+					<com:Name xml:lang="en">Zero</com:Name>
+					<com:Name xml:lang="es">cero</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).1" id="1">
+					<com:Name xml:lang="en">One</com:Name>
+					<com:Name xml:lang="es">uno</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).2" id="2">
+					<com:Name xml:lang="en">Two</com:Name>
+					<com:Name xml:lang="es">dos</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).3" id="3">
+					<com:Name xml:lang="en">Three</com:Name>
+					<com:Name xml:lang="es">tres</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).4" id="4">
+					<com:Name xml:lang="en">Four</com:Name>
+					<com:Name xml:lang="es">cuatro</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).5" id="5">
+					<com:Name xml:lang="en">Five</com:Name>
+					<com:Name xml:lang="es">cinco</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).6" id="6">
+					<com:Name xml:lang="en">Six</com:Name>
+					<com:Name xml:lang="es">seis</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).7" id="7">
+					<com:Name xml:lang="en">Seven</com:Name>
+					<com:Name xml:lang="es">siete</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).8" id="8">
+					<com:Name xml:lang="en">Eight</com:Name>
+					<com:Name xml:lang="es">ocho</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).9" id="9">
+					<com:Name xml:lang="en">Nine</com:Name>
+					<com:Name xml:lang="es">nueve</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).10" id="10">
+					<com:Name xml:lang="en">Ten</com:Name>
+					<com:Name xml:lang="es">diez</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).11" id="11">
+					<com:Name xml:lang="en">Eleven</com:Name>
+					<com:Name xml:lang="es">once</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).12" id="12">
+					<com:Name xml:lang="en">Twelve</com:Name>
+					<com:Name xml:lang="es">doce</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).13" id="13">
+					<com:Name xml:lang="en">Thirteen</com:Name>
+					<com:Name xml:lang="es">trece</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).14" id="14">
+					<com:Name xml:lang="en">Fourteen</com:Name>
+					<com:Name xml:lang="es">catorce</com:Name>
+				</str:Code>
+				<str:Code urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=SDMX:CL_DECIMALS(1.0).15" id="15">
+					<com:Name xml:lang="en">Fifteen</com:Name>
+					<com:Name xml:lang="es">quince</com:Name>
+				</str:Code>
+			</str:Codelist>
+		</str:Codelists>
+	</mes:Structures>
 </mes:Structure>
 XML;
 

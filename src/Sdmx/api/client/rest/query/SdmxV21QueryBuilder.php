@@ -5,7 +5,7 @@ namespace Sdmx\api\client\rest\query;
 
 use Sdmx\util\StringUtils;
 
-class SdmxQueryBuilder implements QueryBuilder
+class SdmxV21QueryBuilder implements QueryBuilder
 {
     /**
      * @var string $baseUrl
@@ -43,9 +43,22 @@ class SdmxQueryBuilder implements QueryBuilder
      */
     public function getDsdQuery($id, $agency, $version, $full)
     {
-        $dataflowKey = StringUtils::joinArrayElements([$agency, $id, $version == '' ? null : $version], '/');
+        $dsdKey = StringUtils::joinArrayElements([$agency, $id, $version == '' ? null : $version], '/');
         $queryString = $full ? '?references=children' : '';
 
-        return StringUtils::joinArrayElements([$this->baseUrl, 'datastructure', $dataflowKey], '/') . $queryString;
+        return StringUtils::joinArrayElements([$this->baseUrl, 'datastructure', $dsdKey], '/') . $queryString;
+    }
+
+    /**
+     * @param string $codelist
+     * @param string $agency
+     * @param string $version
+     * @return string
+     */
+    public function getCodelistQuery($codelist, $agency, $version)
+    {
+        $codelistKey = StringUtils::joinArrayElements([$agency, $codelist, $version], '/');
+
+        return StringUtils::joinArrayElements([$this->baseUrl, 'codelist', $codelistKey], '/');
     }
 }

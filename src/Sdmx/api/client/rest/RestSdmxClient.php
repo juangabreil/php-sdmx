@@ -10,6 +10,7 @@ use Sdmx\api\client\SdmxClient;
 use Sdmx\api\entities\Dataflow;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\DsdIdentifier;
+use Sdmx\api\parser\CodelistParser;
 use Sdmx\api\parser\DataflowParser;
 use Sdmx\api\parser\DataStructureParser;
 
@@ -55,6 +56,10 @@ class RestSdmxClient implements SdmxClient
      */
     private $datastructureParser;
 
+    /**
+     * @var CodelistParser $codelistParser
+     */
+    private $codelistParser;
 
     /**
      * RestSdmxClient constructor.
@@ -63,14 +68,17 @@ class RestSdmxClient implements SdmxClient
      * @param HttpClient $httpClient
      * @param DataflowParser $dataflowParser
      * @param DataStructureParser $datastructureParser
+     * @param CodelistParser $codelistParser
      */
-    public function __construct($name, QueryBuilder $queryBuilder, HttpClient $httpClient, DataflowParser $dataflowParser, DataStructureParser $datastructureParser)
+    public function __construct($name, QueryBuilder $queryBuilder, HttpClient $httpClient, DataflowParser $dataflowParser,
+                                DataStructureParser $datastructureParser, CodelistParser $codelistParser)
     {
         $this->name = $name;
         $this->queryBuilder = $queryBuilder;
         $this->httpClient = $httpClient;
         $this->dataflowParser = $dataflowParser;
         $this->datastructureParser = $datastructureParser;
+        $this->codelistParser = $codelistParser;
     }
 
 
@@ -126,6 +134,9 @@ class RestSdmxClient implements SdmxClient
      */
     public function getCodes($codelist, $agency, $version)
     {
-        // TODO: Implement getCodes() method.
+        $url = $this->queryBuilder->getCodelistQuery($codelist, $agency, $version);
+        $response = $this->httpClient->get($url);
+
+        return $this->codelistParser->parseCodes($response);
     }
 }
