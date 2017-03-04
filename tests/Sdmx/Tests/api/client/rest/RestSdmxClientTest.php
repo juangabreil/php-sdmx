@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jgjimene
- * Date: 20/02/2017
- * Time: 23:01
- */
 
 namespace Sdmx\Tests\api\client\rest;
 
