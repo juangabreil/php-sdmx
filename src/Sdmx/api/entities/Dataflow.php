@@ -125,6 +125,6 @@ class Dataflow
 
     public function getFullIdentifier()
     {
-        return StringUtils::joinArrayElements([$this->agency, $this->id, $this->version], '/');
+        return StringUtils::joinArrayElements([$this->agency, $this->id, $this->version], ',');
     }
 }

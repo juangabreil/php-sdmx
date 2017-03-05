@@ -31,6 +31,7 @@ class DataflowStructure
      */
     private $timeDimension;
     /**
+     * Hash string => Dimension
      * @var Dimension[]
      */
     private $dimensions;
@@ -161,7 +162,7 @@ class DataflowStructure
      */
     public function hasDimension($id)
     {
-        return in_array($id, $this->dimensions);
+        return array_key_exists($id, $this->dimensions);
     }
 
     /**
@@ -171,6 +172,15 @@ class DataflowStructure
     public function getDimensionById($id)
     {
         return $this->dimensions[$id];
+    }
+
+    /**
+     * @param string $id
+     * @return int
+     */
+    public function getDimensionPosition($id)
+    {
+        return $this->dimensions[$id]->getPosition();
     }
 
     /**

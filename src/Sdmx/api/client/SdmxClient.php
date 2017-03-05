@@ -6,6 +6,7 @@ namespace Sdmx\api\client;
 use Sdmx\api\entities\Dataflow;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\DsdIdentifier;
+use Sdmx\api\entities\PortableTimeSeries;
 
 interface SdmxClient
 {
@@ -40,4 +41,40 @@ interface SdmxClient
      * @return string[]
      */
     public function getCodes($codelist, $agency, $version);
+
+    /**
+     * @param Dataflow $dataflow The dataflow of the time series to be gathered
+     * @param DataflowStructure $dsd The structure of the dataflow of the time series to be gathered
+     * @param string $resource The id of the time series
+     * @param array $options
+     * ```php
+     * $options = array(
+     *      'startTime' => 'string', //Start time of the observations to be gathered
+     *      'endTime' => 'string', //End time of the observations to be gathered
+     *      'seriesKeyOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
+     *      'lastNObservations' => 'integer' //The last 'n' observations to return for each matched series.
+     * )
+     * ```
+     * @return PortableTimeSeries[]
+     */
+    public function getTimeSeries(Dataflow $dataflow, DataflowStructure $dsd, $resource, array $options = array());
+
+
+    /**
+     * @param string $dataflow The dataflow of the time series to be gathered
+     * @param string $agency The agency of the dataflow of the time series to be gathered
+     * @param string $version The version of the dataflow of the time series to be gathered
+     * @param string $resource The id of the time series
+     * @param array $options
+     * ```php
+     * $options = array(
+     *      'startTime' => 'string', //Start time of the observations to be gathered
+     *      'endTime' => 'string', //End time of the observations to be gathered
+     *      'seriesKeyOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
+     *      'lastNObservations' => 'integer' //The last 'n' observations to return for each matched series.
+     * )
+     * ```
+     * @return PortableTimeSeries[]
+     */
+    public function getTimeSeries2($dataflow, $agency, $version, $resource, array $options = array());
 }
