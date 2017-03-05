@@ -99,6 +99,27 @@ XML;
         $this->assertEquals('toDate', $line->getAttributeValue('validToDate'));
     }
 
+    public function testParseData()
+    {
+        $structureParser = new V21DataStructureParser(new V21CodelistParser());
+        $dsd = $structureParser->parse(ParserFixtures::getEduNonFinance('structure'))[0];
+        $result = $this->parser->parse(ParserFixtures::getEduNonFinance('data'), $dsd, 'UNESCO,EDU_NON_FINANCE,1.0', true);
+
+        $line = $result[0];
+        $lineData = 'UNIT_MEASURE=PT,STAT_UNIT=GER,SEX=F,REF_AREA=GQ,AGE=OVER_AGE,REGION_DEST=W00,COUNTRY_ORIGIN=W00,SECTOR_EDU=INST_T,GRADE=_T,EDU_FIELD=_T,EDU_ATTAIN=_Z,EDU_CAT=_T,EDU_LEVEL=L1,EDU_TYPE=_T,WEALTH_QUINTILE=_Z,LOCATION=_T';
+        $lineData = explode(',', $lineData);
+        foreach ($lineData as $datum) {
+            $tokens = explode('=', $datum);
+            $this->assertEquals($tokens[1], $line->getDimensionValue($tokens[0]));
+        }
+
+        $this->assertEquals([16.558], $line->getObservations());
+        $this->assertEquals(['1'], $line->getObsLevelAttributes('UNIT_MULT'));
+        $this->assertEquals(['A'], $line->getObsLevelAttributes('OBS_STATUS'));
+        $this->assertEquals(['A'], $line->getObsLevelAttributes('FREQ'));
+        $this->assertEquals(['5'], $line->getObsLevelAttributes('DECIMALS'));
+    }
+
     protected function setUp()
     {
         $this->parser = new V21DataParser();

@@ -33,7 +33,7 @@ class V21DataParser implements DataParser
 
         $series = $dataSet->xpath('.//ns1:Series');
         foreach ($series as $seriesLine) {
-            $result[] = $this->parseSeriesLine($seriesLine, $dsd, $dataflow, $action, $validFrom, $validTo);
+            $result[] = $this->parseSeriesLine($seriesLine, $dsd, $dataflow, $containsData, $action, $validFrom, $validTo);
         }
 
         return $result;
@@ -43,17 +43,40 @@ class V21DataParser implements DataParser
      * @param SimpleXMLElement $seriesLine
      * @param DataflowStructure $dsd
      * @param string $dataflow
+     * @param boolean $containsData
      * @param string $action
      * @param string $validFrom
      * @param string $validTo
      * @return PortableTimeSeries
      */
-    private function parseSeriesLine(SimpleXMLElement $seriesLine, DataflowStructure $dsd, $dataflow, $action, $validFrom, $validTo)
+    private function parseSeriesLine(SimpleXMLElement $seriesLine, DataflowStructure $dsd, $dataflow, $containsData, $action, $validFrom, $validTo)
     {
         $result = new PortableTimeSeries();
 
         $result->setDataflow($dataflow);
 
+        $this->setMetadata($seriesLine, $dsd, $action, $validFrom, $validTo, $result);
+
+        if ($containsData) {
+            $observations = $seriesLine->xpath('.//ns1:Obs');
+            foreach ($observations as $observation) {
+                $this->processObservation($dsd, $observation, $result);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param SimpleXMLElement $seriesLine
+     * @param DataflowStructure $dsd
+     * @param $action
+     * @param $validFrom
+     * @param $validTo
+     * @param PortableTimeSeries $result
+     */
+    private function setMetadata(SimpleXMLElement $seriesLine, DataflowStructure $dsd, $action, $validFrom, $validTo, PortableTimeSeries $result)
+    {
         if ($action != null) {
             $result->addAttribute(self::ACTION, $action);
         }
@@ -86,7 +109,37 @@ class V21DataParser implements DataParser
 
             $result->setDimensions($dimensions);
         }
+    }
 
-        return $result;
+    /**
+     * @param DataflowStructure $dsd
+     * @param SimpleXMLElement $observation
+     * @param PortableTimeSeries $result
+     */
+    private function processObservation(DataflowStructure $dsd, SimpleXMLElement $observation, PortableTimeSeries $result)
+    {
+        $time = '';
+        $obsVal = '';
+        $obsAttr = [];
+
+        foreach ($observation->attributes() as $attribute) {
+            /**
+             * @var SimpleXMLElement $attribute
+             */
+            $id = $attribute->getName();
+            $value = (string)$attribute;
+
+            if ($id === $dsd->getTimeDimension()) {
+                $time = $value;
+            } else if ($id === 'TIME' && $time == null) {
+                $time = $value;
+            } else if ($id === $dsd->getMeasure()) {
+                $obsVal = $value;
+            } else {
+                $obsAttr[$id] = $value;
+            }
+        }
+
+        $result->addObservation($obsVal, $time, $obsAttr);
     }
 }
