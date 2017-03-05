@@ -327,4 +327,200 @@ class RestSdmxClientTest extends TestCase
         $this->assertSame($parsedCodelist, $codelist);
     }
 
+    public function testGetTimeSeries()
+    {
+        $flow = new Dataflow();
+        $flow->setId('EDU_REGION');
+        $dsd = new DataflowStructure();
+        $resource = 'a.b.c';
+        $options = [];
+
+        $generatedQuery = 'SomeQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDataQuery')
+            ->with(
+                $flow,
+                $resource,
+                $options
+            )
+            ->willReturn($generatedQuery);
+
+        $XmlResponse = 'SomeXmlData';
+        $this->httpClient
+            ->expects($this->once())
+            ->method('get')
+            ->with($generatedQuery)
+            ->willReturn($XmlResponse);
+
+        $parsedTimeSeries = [];
+        $this->dataParser
+            ->expects($this->once())
+            ->method('parse')
+            ->with(
+                $XmlResponse,
+                $dsd,
+                'EDU_REGION',
+                true
+            )
+            ->willReturn($parsedTimeSeries);
+
+        $timeSeries = $this->client->getTimeSeries($flow, $dsd, $resource, $options);
+
+        $this->assertSame($parsedTimeSeries, $timeSeries);
+    }
+
+    public function testGetTimeSeriesOnlyKeys()
+    {
+        $flow = new Dataflow();
+        $flow->setId('EDU_REGION');
+        $dsd = new DataflowStructure();
+        $resource = 'a.b.c';
+        $options = ['seriesKeyOnly' => true];
+
+        $generatedQuery = 'SomeQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDataQuery')
+            ->with(
+                $flow,
+                $resource,
+                $options
+            )
+            ->willReturn($generatedQuery);
+
+        $XmlResponse = 'SomeXmlData';
+        $this->httpClient
+            ->expects($this->once())
+            ->method('get')
+            ->with($generatedQuery)
+            ->willReturn($XmlResponse);
+
+        $parsedTimeSeries = [];
+        $this->dataParser
+            ->expects($this->once())
+            ->method('parse')
+            ->with(
+                $XmlResponse,
+                $dsd,
+                'EDU_REGION',
+                false
+            )
+            ->willReturn($parsedTimeSeries);
+
+        $timeSeries = $this->client->getTimeSeries($flow, $dsd, $resource, $options);
+
+        $this->assertSame($parsedTimeSeries, $timeSeries);
+    }
+
+    public function testGetTimeSeriesFromScratch()
+    {
+        $flow = new Dataflow();
+        $flow->setId('EDU_REGION');
+        $version = 'SomeVersion';
+        $agency = 'SomeAgency';
+        $dataflow = 'SomeFlow';
+        $flow->setDsdIdentifier(new DsdIdentifier($dataflow, $agency, $version));
+        $dsd = new DataflowStructure();
+        $resource = 'a.b.c';
+        $options = [];
+
+        $this->httpClient
+            ->method('get')
+            ->with($this->logicalOr(
+                $this->equalTo('SomeFlowQuery'),
+                $this->equalTo('SomeStructureQuery'),
+                $this->equalTo('SomeDataQuery')
+            ))
+            ->willReturn('SomeXmlData');
+
+        $this->prepareGetFlow($flow);
+        $this->prepareGetDatastructure($dsd);
+        $parsedTimeSeries = $this->prepareGetCode($flow, $resource, $options, $dsd);
+
+        $timeSeries = $this->client->getTimeSeries2($dataflow, $agency, $version, $resource, $options);
+
+        $this->assertSame($parsedTimeSeries, $timeSeries);
+    }
+
+    private function prepareGetFlow(Dataflow $flow){
+        $generatedQuery = 'SomeFlowQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDataflowQuery')
+            ->with(
+                'SomeAgency',
+                'SomeFlow',
+                'SomeVersion'
+            )
+            ->willReturn($generatedQuery);
+
+
+
+        $parsedDataflows = array($flow);
+        $this->dataflowParser
+            ->expects($this->once())
+            ->method('parse')
+            ->with('SomeXmlData')
+            ->willReturn($parsedDataflows);
+    }
+
+    private function prepareGetDatastructure(DataflowStructure $dsd){
+        $generatedQuery = 'SomeStructureQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDsdQuery')
+            ->with(
+                'SomeFlow',
+                'SomeAgency',
+                'SomeVersion'
+            )
+            ->willReturn($generatedQuery);
+
+        $parsedDataflowStructures = array($dsd);
+        $this->datastructureParser
+            ->expects($this->once())
+            ->method('parse')
+            ->with('SomeXmlData')
+            ->willReturn($parsedDataflowStructures);
+    }
+
+    /**
+     * @param $flow
+     * @param $resource
+     * @param $options
+     * @param $dsd
+     * @return array
+     */
+    private function prepareGetCode($flow, $resource, $options, $dsd)
+    {
+        $generatedQuery = 'SomeDataQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDataQuery')
+            ->with(
+                $flow,
+                $resource,
+                $options
+            )
+            ->willReturn($generatedQuery);
+
+        $XmlResponse = 'SomeXmlData';
+
+
+        $parsedTimeSeries = [];
+        $this->dataParser
+            ->expects($this->once())
+            ->method('parse')
+            ->with(
+                'SomeXmlData',
+                $dsd,
+                'EDU_REGION',
+                true
+            )
+            ->willReturn($parsedTimeSeries);
+
+        return $parsedTimeSeries;
+    }
+
 }

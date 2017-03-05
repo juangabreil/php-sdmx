@@ -169,7 +169,7 @@ class RestSdmxClient implements SdmxClient
 
         $containsData = array_key_exists('seriesKeyOnly', $options) ? !$options['seriesKeyOnly'] : true;
 
-        $this->dataParser->parse($response, $dsd, $dataflow, $containsData);
+        return $this->dataParser->parse($response, $dsd, $dataflow->getId(), $containsData);
     }
 
     /**
