@@ -16,7 +16,7 @@ class V21DataflowParserTest extends TestCase
 
     public function testParseDataflowList()
     {
-        $result = $this->parser->parse(ParserFixtures::$DATA_FLOW);
+        $result = $this->parser->parse(ParserFixtures::getDataflow());
 
         $this->assertNotNull($result);
         $this->assertEquals(2, count($result));
@@ -27,7 +27,7 @@ class V21DataflowParserTest extends TestCase
 
     public function testParseDataflowWithoutName()
     {
-        $result = $this->parser->parse(ParserFixtures::$DATA_FLOW1);
+        $result = $this->parser->parse(ParserFixtures::getDataflow('1'));
 
         $this->assertNotNull($result);
         $this->assertEquals(1, count($result));
@@ -37,7 +37,7 @@ class V21DataflowParserTest extends TestCase
 
     public function testParseDataflowWithoutDsd()
     {
-        $result = $this->parser->parse(ParserFixtures::$DATA_FLOW2);
+        $result = $this->parser->parse(ParserFixtures::getDataflow('2'));
 
         $this->assertNotNull($result);
         $this->assertEquals(1, count($result));
@@ -45,15 +45,7 @@ class V21DataflowParserTest extends TestCase
         $this->checkFlow($result[0], 'CE', '1.0', 'UNESCO', 'Cultural employment', false);
     }
 
-    /**
-     * @param Dataflow $dataflow
-     * @param string $id
-     * @param string $version
-     * @param string $agency
-     * @param string $name
-     * @param bool $hasDsd
-     */
-    public function checkFlow($dataflow, $id, $version, $agency, $name, $hasDsd = true)
+    private function checkFlow(Dataflow $dataflow, $id, $version, $agency, $name, $hasDsd = true)
     {
         $this->assertEquals($id, $dataflow->getId());
         $this->assertEquals($version, $dataflow->getVersion());

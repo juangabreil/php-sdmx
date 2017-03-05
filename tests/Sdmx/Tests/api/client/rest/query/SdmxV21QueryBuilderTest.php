@@ -5,6 +5,7 @@ namespace Sdmx\Tests\api\client\rest\query;
 
 use PHPUnit\Framework\TestCase;
 use Sdmx\api\client\rest\query\SdmxV21QueryBuilder;
+use Sdmx\api\entities\Dataflow;
 
 
 class SdmxV21QueryBuilderTest extends TestCase
@@ -61,4 +62,27 @@ class SdmxV21QueryBuilderTest extends TestCase
         $this->assertEquals($expected, $query);
     }
 
+    public function testGetDataQueryWithoutParams()
+    {
+        $df = new Dataflow();
+        $df->setId('EDU_FINANCE');
+        $df->setAgency('UNESCO');
+        $df->setVersion('1.0');
+        $query = $this->sdmxQueryBuilder->getDataQuery($df, 'a.b.c.d');
+
+        $expected = self::BASE_URL . '/data/UNESCO,EDU_FINANCE,1.0/a.b.c.d';
+        $this->assertEquals($expected, $query);
+    }
+
+    public function testGetDataQueryWithParams()
+    {
+        $df = new Dataflow();
+        $df->setId('EDU_FINANCE');
+        $df->setAgency('UNESCO');
+        $df->setVersion('1.0');
+        $query = $this->sdmxQueryBuilder->getDataQuery($df, 'a.b.c.d', array('startTime' => '2000', 'endTime' => '2010', 'seriesKeyOnly' => true));
+
+        $expected = self::BASE_URL . '/data/UNESCO,EDU_FINANCE,1.0/a.b.c.d?startTime=2000&endTime=2010&detail=serieskeyonly';
+        $this->assertEquals($expected, $query);
+    }
 }
