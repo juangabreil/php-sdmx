@@ -13,6 +13,7 @@ use Sdmx\api\entities\DsdIdentifier;
 use Sdmx\api\entities\PortableTimeSeries;
 use Sdmx\api\parser\CodelistParser;
 use Sdmx\api\parser\DataflowParser;
+use Sdmx\api\parser\DataParser;
 use Sdmx\api\parser\DataStructureParser;
 
 class RestSdmxClient implements SdmxClient
@@ -63,6 +64,11 @@ class RestSdmxClient implements SdmxClient
     private $codelistParser;
 
     /**
+     * @var DataParser $dataParser
+     */
+    private $dataParser;
+
+    /**
      * RestSdmxClient constructor.
      * @param string $name
      * @param QueryBuilder $queryBuilder
@@ -70,9 +76,9 @@ class RestSdmxClient implements SdmxClient
      * @param DataflowParser $dataflowParser
      * @param DataStructureParser $datastructureParser
      * @param CodelistParser $codelistParser
+     * @param DataParser $dataParser
      */
-    public function __construct($name, QueryBuilder $queryBuilder, HttpClient $httpClient, DataflowParser $dataflowParser,
-                                DataStructureParser $datastructureParser, CodelistParser $codelistParser)
+    public function __construct($name, QueryBuilder $queryBuilder, HttpClient $httpClient, DataflowParser $dataflowParser, DataStructureParser $datastructureParser, CodelistParser $codelistParser, DataParser $dataParser)
     {
         $this->name = $name;
         $this->queryBuilder = $queryBuilder;
@@ -80,8 +86,8 @@ class RestSdmxClient implements SdmxClient
         $this->dataflowParser = $dataflowParser;
         $this->datastructureParser = $datastructureParser;
         $this->codelistParser = $codelistParser;
+        $this->dataParser = $dataParser;
     }
-
 
     /**
      * Gets all dataflows.
@@ -161,7 +167,9 @@ class RestSdmxClient implements SdmxClient
         $query = $this->queryBuilder->getDataQuery($dataflow, $resource, $options);
         $response = $this->httpClient->get($query);
 
+        $containsData = array_key_exists('seriesKeyOnly', $options) ? !$options['seriesKeyOnly'] : true;
 
+        $this->dataParser->parse($response, $dsd, $dataflow, $containsData);
     }
 
     /**

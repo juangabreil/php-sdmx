@@ -14,6 +14,7 @@ use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\DsdIdentifier;
 use Sdmx\api\parser\CodelistParser;
 use Sdmx\api\parser\DataflowParser;
+use Sdmx\api\parser\DataParser;
 use Sdmx\api\parser\DataStructureParser;
 
 
@@ -44,6 +45,10 @@ class RestSdmxClientTest extends TestCase
      * @var PHPUnit_Framework_MockObject_MockObject $codelistParser
      */
     private $codelistParser;
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject $dataParser
+     */
+    private $dataParser;
 
     public function setUp()
     {
@@ -53,7 +58,9 @@ class RestSdmxClientTest extends TestCase
         $this->dataflowParser = $this->getMockBuilder(DataflowParser::class)->getMock();
         $this->datastructureParser = $this->getMockBuilder(DataStructureParser::class)->getMock();
         $this->codelistParser = $this->getMockBuilder(CodelistParser::class)->getMock();
-        $this->client = new RestSdmxClient("rest", $this->queryBuilderMock, $this->httpClient, $this->dataflowParser, $this->datastructureParser, $this->codelistParser);
+        $this->dataParser = $this->getMockBuilder(DataParser::class)->getMock();
+        $this->client = new RestSdmxClient("rest", $this->queryBuilderMock, $this->httpClient, $this->dataflowParser,
+            $this->datastructureParser, $this->codelistParser, $this->dataParser);
     }
 
     public function testGetDataflows()
