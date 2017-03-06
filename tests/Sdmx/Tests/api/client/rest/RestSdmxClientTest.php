@@ -376,7 +376,7 @@ class RestSdmxClientTest extends TestCase
         $flow->setId('EDU_REGION');
         $dsd = new DataflowStructure();
         $resource = 'a.b.c';
-        $options = ['seriesKeyOnly' => true];
+        $options = ['seriesKeysOnly' => true];
 
         $generatedQuery = 'SomeQuery';
         $this->queryBuilderMock

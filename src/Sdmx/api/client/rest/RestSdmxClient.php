@@ -156,7 +156,7 @@ class RestSdmxClient implements SdmxClient
      * $options = array(
      *      'startPeriod' => 'string', //Start time of the observations to be gathered
      *      'endPeriod' => 'string', //End time of the observations to be gathered
-     *      'seriesKeyOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
+     *      'seriesKeysOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
      *      'lastNObservations' => 'integer' //The last 'n' observations to return for each matched series.
      * )
      * ```
@@ -167,7 +167,7 @@ class RestSdmxClient implements SdmxClient
         $query = $this->queryBuilder->getDataQuery($dataflow, $resource, $options);
         $response = $this->httpClient->get($query);
 
-        $containsData = array_key_exists('seriesKeyOnly', $options) ? !$options['seriesKeyOnly'] : true;
+        $containsData = array_key_exists('seriesKeysOnly', $options) ? !$options['seriesKeysOnly'] : true;
 
         return $this->dataParser->parse($response, $dsd, $dataflow->getId(), $containsData);
     }
@@ -182,7 +182,7 @@ class RestSdmxClient implements SdmxClient
      * $options = array(
      *      'startPeriod' => 'string', //Start time of the observations to be gathered
      *      'endPeriod' => 'string', //End time of the observations to be gathered
-     *      'seriesKeyOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
+     *      'seriesKeysOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
      *      'lastNObservations' => 'integer' //The last 'n' observations to return for each matched series.
      * )
      * ```

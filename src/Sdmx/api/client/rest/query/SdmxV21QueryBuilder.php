@@ -71,7 +71,7 @@ class SdmxV21QueryBuilder implements QueryBuilder
      * $options = array(
      *      'startPeriod' => 'string', //Start time of the observations to be gathered
      *      'endPeriod' => 'string', //End time of the observations to be gathered
-     *      'seriesKeyOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
+     *      'seriesKeysOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
      *      'lastNObservations' => 'integer' //The last 'n' observations to return for each matched series.
      * )
      * ```
@@ -102,9 +102,9 @@ class SdmxV21QueryBuilder implements QueryBuilder
             $copy[$key] = $value;
         }
 
-        if (array_key_exists('seriesKeyOnly', $copy) && $copy['seriesKeyOnly'] === true) {
-            unset($copy['seriesKeyOnly']);
-            $copy['detail'] = 'serieskeyonly';
+        if (array_key_exists('seriesKeysOnly', $copy) && $copy['seriesKeysOnly'] === true) {
+            unset($copy['seriesKeysOnly']);
+            $copy['detail'] = 'serieskeysonly';
         }
 
         return $copy;
