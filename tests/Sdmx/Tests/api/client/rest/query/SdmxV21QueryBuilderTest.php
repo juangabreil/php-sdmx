@@ -80,9 +80,9 @@ class SdmxV21QueryBuilderTest extends TestCase
         $df->setId('EDU_FINANCE');
         $df->setAgency('UNESCO');
         $df->setVersion('1.0');
-        $query = $this->sdmxQueryBuilder->getDataQuery($df, 'a.b.c.d', array('startPeriod' => '2000', 'endPeriod' => '2010', 'seriesKeyOnly' => true));
+        $query = $this->sdmxQueryBuilder->getDataQuery($df, 'a.b.c.d', array('startPeriod' => '2000', 'endPeriod' => '2010', 'seriesKeysOnly' => true));
 
-        $expected = self::BASE_URL . '/data/UNESCO,EDU_FINANCE,1.0/a.b.c.d?startPeriod=2000&endPeriod=2010&detail=serieskeyonly';
+        $expected = self::BASE_URL . '/data/UNESCO,EDU_FINANCE,1.0/a.b.c.d?startPeriod=2000&endPeriod=2010&detail=serieskeysonly';
         $this->assertEquals($expected, $query);
     }
 }
