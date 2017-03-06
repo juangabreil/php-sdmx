@@ -69,8 +69,8 @@ class SdmxV21QueryBuilder implements QueryBuilder
      * @param array $options
      * ```php
      * $options = array(
-     *      'startTime' => 'string', //Start time of the observations to be gathered
-     *      'endTime' => 'string', //End time of the observations to be gathered
+     *      'startPeriod' => 'string', //Start time of the observations to be gathered
+     *      'endPeriod' => 'string', //End time of the observations to be gathered
      *      'seriesKeyOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
      *      'lastNObservations' => 'integer' //The last 'n' observations to return for each matched series.
      * )
