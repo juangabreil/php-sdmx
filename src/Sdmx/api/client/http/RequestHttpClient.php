@@ -8,6 +8,11 @@ use Requests;
 class RequestHttpClient implements HttpClient
 {
     /**
+     * @var array $predefinedHeaders
+     */
+    private $predefinedHeaders = [];
+
+    /**
      * @param string $url
      * @param array $headers
      * @param array $options
@@ -15,8 +20,17 @@ class RequestHttpClient implements HttpClient
      */
     public function get($url, $headers = array('Accept' => 'application/xml', 'Accept-Encoding' => 'gzip'), $options = array())
     {
-        $response =  Requests::get($url, $headers, $options);
+        $headersToSend = array_merge($this->predefinedHeaders, $headers);
+        $response =  Requests::get($url, $headersToSend, $options);
 
         return $response->body;
+    }
+
+    /**
+     * @param array $headers
+     */
+    public function setPredefinedHeaders(array $headers)
+    {
+        $this->predefinedHeaders = $headers;
     }
 }

@@ -12,4 +12,9 @@ interface HttpClient
      * @return string
      */
     public function get($url, $headers = array('Accept' => 'application/xml', 'Accept-Encoding' => 'gzip'), $options = array());
+
+    /**
+     * @param array $headers
+     */
+    public function setPredefinedHeaders(array $headers);
 }
