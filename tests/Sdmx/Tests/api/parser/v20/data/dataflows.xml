@@ -1,0 +1,58 @@
+<message:Structure xmlns="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/structure"
+                                       xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common"
+                                       xsi:schemaLocation="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/structure http://www.sdmx.org/docs/2_0/SDMXStructure.xsd http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message http://www.sdmx.org/docs/2_0/SDMXMessage.xsd"
+                                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                       xmlns:message="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message">
+<message:KeyFamilies>
+    <KeyFamily id="QNA" agencyID="OECD">
+        <Name xml:lang="en">Quarterly National Accounts</Name>
+        <Name xml:lang="fr">Comptes nationaux trimestriels</Name>
+        <Annotations>
+            <common:Annotation>
+                <common:AnnotationTitle>Copyright OECD - All rights reserved</common:AnnotationTitle>
+            </common:Annotation>
+            <common:Annotation>
+                <common:AnnotationTitle>Terms and Conditions</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/termsandconditions/</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation>
+                <common:AnnotationTitle>Privacy Policy</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/privacy/</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation>
+                <common:AnnotationTitle>MyOECD</common:AnnotationTitle>
+                <common:AnnotationURL>https://www.oecd.org/login</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation>
+                <common:AnnotationTitle>Contact Us</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/contact/</common:AnnotationURL>
+            </common:Annotation>
+        </Annotations>
+    </KeyFamily>
+    <KeyFamily id="PAT_IND" agencyID="OECD">
+        <Name xml:lang="en">Patent indicators</Name>
+        <Name xml:lang="fr">Brevets - Indicateurs</Name>
+        <Annotations>
+            <common:Annotation>
+                <common:AnnotationTitle>Copyright OECD - All rights reserved</common:AnnotationTitle>
+            </common:Annotation>
+            <common:Annotation>
+                <common:AnnotationTitle>Terms and Conditions</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/termsandconditions/</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation>
+                <common:AnnotationTitle>Privacy Policy</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/privacy/</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation>
+                <common:AnnotationTitle>MyOECD</common:AnnotationTitle>
+                <common:AnnotationURL>https://www.oecd.org/login</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation>
+                <common:AnnotationTitle>Contact Us</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/contact/</common:AnnotationURL>
+            </common:Annotation>
+        </Annotations>
+    </KeyFamily>
+</message:KeyFamilies>
+</message:Structure>
