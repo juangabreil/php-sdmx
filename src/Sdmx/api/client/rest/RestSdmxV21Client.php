@@ -16,7 +16,7 @@ use Sdmx\api\parser\DataflowParser;
 use Sdmx\api\parser\DataParser;
 use Sdmx\api\parser\DataStructureParser;
 
-class RestSdmxClient implements SdmxClient
+class RestSdmxV21Client implements SdmxClient
 {
     /**
      * @const ALL_AGENCIES

@@ -5,7 +5,7 @@ namespace Sdmx\api\client;
 
 use Sdmx\api\client\http\RequestHttpClient;
 use Sdmx\api\client\rest\query\SdmxRestQueryBuilder;
-use Sdmx\api\client\rest\RestSdmxClient;
+use Sdmx\api\client\rest\RestSdmxV21Client;
 use Sdmx\api\parser\v21\V21CodelistParser;
 use Sdmx\api\parser\v21\V21DataflowParser;
 use Sdmx\api\parser\v21\V21DataParser;
@@ -26,7 +26,7 @@ class SdmxClientFactory
 
         $httpClient->setPredefinedHeaders(array('Ocp-Apim-Subscription-key' => $apiKey));
 
-        $client = new RestSdmxClient('UIS', $queryBuilder, $httpClient, $dataflowParser, $datastructureParser, $codelistParser, $dataParser);
+        $client = new RestSdmxV21Client('UIS', $queryBuilder, $httpClient, $dataflowParser, $datastructureParser, $codelistParser, $dataParser);
 
         return $client;
     }

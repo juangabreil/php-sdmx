@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Sdmx\api\client\http\HttpClient;
 use Sdmx\api\client\rest\query\SdmxQueryBuilder;
-use Sdmx\api\client\rest\RestSdmxClient;
+use Sdmx\api\client\rest\RestSdmxV21Client;
 use Sdmx\api\client\SdmxClient;
 use Sdmx\api\entities\Dataflow;
 use Sdmx\api\entities\DataflowStructure;
@@ -18,7 +18,7 @@ use Sdmx\api\parser\DataParser;
 use Sdmx\api\parser\DataStructureParser;
 
 
-class RestSdmxClientTest extends TestCase
+class RestSdmxV21ClientTest extends TestCase
 {
 
     /**
@@ -59,7 +59,7 @@ class RestSdmxClientTest extends TestCase
         $this->datastructureParser = $this->getMockBuilder(DataStructureParser::class)->getMock();
         $this->codelistParser = $this->getMockBuilder(CodelistParser::class)->getMock();
         $this->dataParser = $this->getMockBuilder(DataParser::class)->getMock();
-        $this->client = new RestSdmxClient("rest", $this->queryBuilderMock, $this->httpClient, $this->dataflowParser,
+        $this->client = new RestSdmxV21Client("rest", $this->queryBuilderMock, $this->httpClient, $this->dataflowParser,
             $this->datastructureParser, $this->codelistParser, $this->dataParser);
     }
 
@@ -70,9 +70,9 @@ class RestSdmxClientTest extends TestCase
             ->expects($this->once())
             ->method('getDataflowQuery')
             ->with(
-                RestSdmxClient::ALL_AGENCIES,
-                RestSdmxClient::ALL_FLOWS,
-                RestSdmxClient::LATEST_VERSION
+                RestSdmxV21Client::ALL_AGENCIES,
+                RestSdmxV21Client::ALL_FLOWS,
+                RestSdmxV21Client::LATEST_VERSION
             )
             ->willReturn($generatedQuery);
 
