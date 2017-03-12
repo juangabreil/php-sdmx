@@ -17,10 +17,10 @@ class V21CodelistParser implements CodelistParser
     {
         $result = [];
 
-        $codes = $data->xpath('.//str:Code');
+        $codes = $data->xpath('./str:Code');
 
         foreach ($codes as $code){
-            $name = $code->xpath('.//com:Name[@xml:lang="en"]');
+            $name = $code->xpath('./com:Name[@xml:lang="en"]');
             if(count($name) > 0){
                 $result[(string) $code['id']] = (string)$name[0];
             }
@@ -37,7 +37,7 @@ class V21CodelistParser implements CodelistParser
     public function parseCodes($data)
     {
         $xml = new SimpleXMLElement($data);
-        $codelist = $xml->xpath('//mes:Structure/mes:Structures/str:Codelists/str:Codelist')[0];
+        $codelist = $xml->xpath('/mes:Structure/mes:Structures/str:Codelists/str:Codelist')[0];
 
         return $this->parseCodesFromNode($codelist);
     }

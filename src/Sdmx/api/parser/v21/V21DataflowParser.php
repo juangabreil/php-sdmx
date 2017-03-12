@@ -23,20 +23,20 @@ class V21DataflowParser implements DataflowParser
         $result = array();
         $xml = new SimpleXMLElement($data);
 
-        $flows = $xml->xpath('//mes:Structure/mes:Structures/str:Dataflows/str:Dataflow');
+        $flows = $xml->xpath('/mes:Structure/mes:Structures/str:Dataflows/str:Dataflow');
         foreach ($flows as $flow) {
             $dataflow = new Dataflow();
             $dataflow->setId((string) $flow[self::ID]);
             $dataflow->setAgency((string) $flow[self::AGENCY_ID]);
             $dataflow->setVersion((string)$flow[self::VERSION]);
 
-            $name = $flow->xpath('.//com:Name[@xml:lang="en"]');
+            $name = $flow->xpath('./com:Name[@xml:lang="en"]');
             if(count($name) > 0){
                 $dataflow->setName((string)$name[0]);
             }
 
 
-            $ref = $flow->xpath('.//str:Structure/Ref');
+            $ref = $flow->xpath('./str:Structure/Ref');
             if(count($ref) > 0){
                 $ref = $ref[0];
                 $dsd = new DsdIdentifier(
