@@ -4,22 +4,23 @@ namespace Sdmx\Tests\api\client\rest\query;
 
 
 use PHPUnit\Framework\TestCase;
-use Sdmx\api\client\rest\query\SdmxV21QueryBuilder;
+use Sdmx\api\client\rest\query\SdmxQueryBuilder;
+use Sdmx\api\client\rest\query\SdmxRestQueryBuilder;
 use Sdmx\api\entities\Dataflow;
 
 
-class SdmxV21QueryBuilderTest extends TestCase
+class SdmxQueryBuilderTest extends TestCase
 {
     const BASE_URL = 'http://some.base.url';
 
     /**
-     * @var SdmxV21QueryBuilder $sdmxQueryBuilder
+     * @var SdmxQueryBuilder $sdmxQueryBuilder
      */
     private $sdmxQueryBuilder;
 
     protected function setUp()
     {
-        $this->sdmxQueryBuilder = new SdmxV21QueryBuilder(self::BASE_URL);
+        $this->sdmxQueryBuilder = new SdmxRestQueryBuilder(self::BASE_URL);
     }
 
     public function testGetDataflowQuery()

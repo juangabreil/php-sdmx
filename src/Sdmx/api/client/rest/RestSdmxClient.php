@@ -5,7 +5,7 @@ namespace Sdmx\api\client\rest;
 
 use InvalidArgumentException;
 use Sdmx\api\client\http\HttpClient;
-use Sdmx\api\client\rest\query\QueryBuilder;
+use Sdmx\api\client\rest\query\SdmxQueryBuilder;
 use Sdmx\api\client\SdmxClient;
 use Sdmx\api\entities\Dataflow;
 use Sdmx\api\entities\DataflowStructure;
@@ -39,7 +39,7 @@ class RestSdmxClient implements SdmxClient
     private $name;
 
     /**
-     * @var QueryBuilder $queryBuilder
+     * @var SdmxQueryBuilder $queryBuilder
      */
     private $queryBuilder;
 
@@ -71,14 +71,14 @@ class RestSdmxClient implements SdmxClient
     /**
      * RestSdmxClient constructor.
      * @param string $name
-     * @param QueryBuilder $queryBuilder
+     * @param SdmxQueryBuilder $queryBuilder
      * @param HttpClient $httpClient
      * @param DataflowParser $dataflowParser
      * @param DataStructureParser $datastructureParser
      * @param CodelistParser $codelistParser
      * @param DataParser $dataParser
      */
-    public function __construct($name, QueryBuilder $queryBuilder, HttpClient $httpClient, DataflowParser $dataflowParser, DataStructureParser $datastructureParser, CodelistParser $codelistParser, DataParser $dataParser)
+    public function __construct($name, SdmxQueryBuilder $queryBuilder, HttpClient $httpClient, DataflowParser $dataflowParser, DataStructureParser $datastructureParser, CodelistParser $codelistParser, DataParser $dataParser)
     {
         $this->name = $name;
         $this->queryBuilder = $queryBuilder;

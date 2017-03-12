@@ -6,7 +6,7 @@ namespace Sdmx\api\client\rest\query;
 use Sdmx\api\entities\Dataflow;
 use Sdmx\util\StringUtils;
 
-class SdmxV21QueryBuilder implements QueryBuilder
+class SdmxRestQueryBuilder implements SdmxQueryBuilder
 {
     /**
      * @var string $baseUrl

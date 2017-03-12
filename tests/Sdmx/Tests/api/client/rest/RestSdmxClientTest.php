@@ -6,7 +6,7 @@ namespace Sdmx\Tests\api\client\rest;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Sdmx\api\client\http\HttpClient;
-use Sdmx\api\client\rest\query\QueryBuilder;
+use Sdmx\api\client\rest\query\SdmxQueryBuilder;
 use Sdmx\api\client\rest\RestSdmxClient;
 use Sdmx\api\client\SdmxClient;
 use Sdmx\api\entities\Dataflow;
@@ -52,7 +52,7 @@ class RestSdmxClientTest extends TestCase
 
     public function setUp()
     {
-        $this->queryBuilderMock = $this->getMockBuilder(QueryBuilder::class)
+        $this->queryBuilderMock = $this->getMockBuilder(SdmxQueryBuilder::class)
             ->getMock();
         $this->httpClient = $this->getMockBuilder(HttpClient::class)->getMock();
         $this->dataflowParser = $this->getMockBuilder(DataflowParser::class)->getMock();
@@ -504,9 +504,6 @@ class RestSdmxClientTest extends TestCase
                 $options
             )
             ->willReturn($generatedQuery);
-
-        $XmlResponse = 'SomeXmlData';
-
 
         $parsedTimeSeries = [];
         $this->dataParser

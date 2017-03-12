@@ -5,7 +5,7 @@ namespace Sdmx\api\client\rest\query;
 
 use Sdmx\api\entities\Dataflow;
 
-interface QueryBuilder
+interface SdmxQueryBuilder
 {
     /**
      * @param string $agency
