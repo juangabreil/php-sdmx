@@ -54,7 +54,7 @@ class DotStatClient implements SdmxClient
         $result = [];
 
         $structures = $this->dataStructureParser->parse($data);
-        foreach ($structures as $structure){
+        foreach ($structures as $structure) {
             $result[] = $this->mapStructureToDataflow($structure);
         }
 
@@ -70,7 +70,12 @@ class DotStatClient implements SdmxClient
      */
     public function getDataflow($dataflow, $agency, $version)
     {
-        // TODO: Implement getDataflow() method.
+        $url = $this->queryBuilder->getDsdQuery($dataflow, $agency, $version, false);
+        $data = $this->httpClient->get($url);
+
+        $structures = $this->dataStructureParser->parse($data);
+
+        return count($structures) > 0 ? $this->mapStructureToDataflow($structures[0]) : null;
     }
 
     /**

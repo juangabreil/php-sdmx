@@ -76,6 +76,43 @@ class DotStatClientTest extends TestCase
         $this->checkFlow($dataflows[0], 'QNA', 'OECD', 'Quaterly National Accounts');
     }
 
+    public function testGetDataflow()
+    {
+        $generatedQuery = 'SomeQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDsdQuery')
+            ->with(
+                'QNA',
+                'OECD',
+                '',
+                false
+            )
+            ->willReturn($generatedQuery);
+
+        $XmlResponse = 'SomeXmlData';
+        $this->httpClientMock
+            ->expects($this->once())
+            ->method('get')
+            ->with($generatedQuery)
+            ->willReturn($XmlResponse);
+
+        $dataflowStructure = new DataflowStructure();
+        $dataflowStructure->setId('QNA');
+        $dataflowStructure->setAgency('OECD');
+        $dataflowStructure->setName('Quaterly National Accounts');
+        $parsedDataflows = [$dataflowStructure];
+        $this->datastructureParserMock
+            ->expects($this->once())
+            ->method('parse')
+            ->with($XmlResponse)
+            ->willReturn($parsedDataflows);
+
+        $dataflow = $this->client->getDataflow('QNA', 'OECD', '');
+
+        $this->checkFlow($dataflow, 'QNA', 'OECD', 'Quaterly National Accounts');
+    }
+
     /**
      * @param Dataflow $dataflow
      * @param string $id
