@@ -10,6 +10,7 @@ use Sdmx\api\entities\Dataflow;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\DsdIdentifier;
 use Sdmx\api\entities\PortableTimeSeries;
+use Sdmx\api\exceptions\UnsupportedOperationException;
 use Sdmx\api\parser\DataStructureParser;
 
 class DotStatClient implements SdmxClient
@@ -86,7 +87,11 @@ class DotStatClient implements SdmxClient
      */
     public function getDataflowStructure(DsdIdentifier $dsd, $full = false)
     {
-        // TODO: Implement getDataflowStructure() method.
+        $url = $this->queryBuilder->getDsdQuery($dsd->getId(), $dsd->getAgency(), $dsd->getVersion(), $full);
+        $response = $this->httpClient->get($url);
+        $dataflowStructures = $this->dataStructureParser->parse($response);
+
+        return count($dataflowStructures) > 0 ? $dataflowStructures[0] : null;
     }
 
     /**
@@ -94,11 +99,11 @@ class DotStatClient implements SdmxClient
      * @param string $codelist
      * @param string $agency
      * @param string $version
-     * @return string[]
+     * @return \string[]
      */
     public function getCodes($codelist, $agency, $version)
     {
-        // TODO: Implement getCodes() method.
+        throw new UnsupportedOperationException('This method is not supported by dot stat api\'s');
     }
 
     /**

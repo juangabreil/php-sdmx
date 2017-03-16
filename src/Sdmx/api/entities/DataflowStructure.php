@@ -10,6 +10,9 @@ use Sdmx\util\StringUtils;
  */
 class DataflowStructure
 {
+
+    const DEFAULT_MEASURE = 'OBS_VALUE';
+
     /**
      * @var string $id
      */
@@ -35,6 +38,11 @@ class DataflowStructure
      * @var Dimension[]
      */
     private $dimensions;
+
+    /**
+     * @var string $measure
+     */
+    private $measure = self::DEFAULT_MEASURE;
 
     /**
      * DataflowStructure constructor.
@@ -204,10 +212,19 @@ class DataflowStructure
         return $str;
     }
 
-
+    /**
+     * @return string
+     */
     public function getMeasure()
     {
-        return 'OBS_VALUE';
+        return $this->measure;
+    }
+
+    /**
+     * @param string $measure
+     */
+    public function setMeasure($measure){
+        $this->measure = $measure;
     }
 
 

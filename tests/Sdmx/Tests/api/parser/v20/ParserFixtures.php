@@ -4,16 +4,25 @@ namespace Sdmx\Tests\api\parser\v20;
 
 class ParserFixtures
 {
-    const DATAFLOW_FILE = 'dataflows';
+    const DATA_STRUCTURES_FILE = 'datastructures';
+    const DATA_STRUCTURE_FILE = 'datastructure';
     const XML_EXTENSION = '.xml';
     const DATA_FOLDER = 'data';
 
     /**
      * @return string
      */
-    public static function getDataflow()
+    public static function getDataStructures()
     {
-        return file_get_contents(self::getFileUrl(self::DATAFLOW_FILE));
+        return file_get_contents(self::getFileUrl(self::DATA_STRUCTURES_FILE));
+    }
+
+    /**
+     * @return string
+     */
+    public static function getDataStructure()
+    {
+        return file_get_contents(self::getFileUrl(self::DATA_STRUCTURE_FILE));
     }
 
     private static function getFileUrl($filename, $suffix = '')
