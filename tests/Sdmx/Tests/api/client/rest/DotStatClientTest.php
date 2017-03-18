@@ -416,6 +416,7 @@ class DotStatClientTest extends TestCase
         $this->datastructureParserMock = $this->getMockBuilder(DataStructureParser::class)->getMock();
         $this->dataParserMock = $this->getMockBuilder(DataParser::class)->getMock();
         $this->client = new DotStatClient(
+            'DotStat',
             $this->queryBuilderMock,
             $this->httpClientMock,
             $this->datastructureParserMock,
