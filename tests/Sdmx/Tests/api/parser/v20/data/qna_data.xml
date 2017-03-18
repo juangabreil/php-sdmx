@@ -31,18 +31,22 @@
             <Obs>
                 <Time>2011-Q1</Time>
                 <ObsValue value="1372218.630675"/>
+                <Value concept="TEST" value="1"/>
             </Obs>
             <Obs>
                 <Time>2011-Q2</Time>
                 <ObsValue value="1387564.451114"/>
+                <Value concept="TEST" value="2"/>
             </Obs>
             <Obs>
                 <Time>2011-Q3</Time>
                 <ObsValue value="1404000.162784"/>
+                <Value concept="TEST" value="3"/>
             </Obs>
             <Obs>
                 <Time>2011-Q4</Time>
                 <ObsValue value="1417956.087089"/>
+                <Value concept="TEST" value="4"/>
             </Obs>
         </Series>
         <Series>

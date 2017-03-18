@@ -17,7 +17,8 @@ class V20DataParserTest extends TestCase
      */
     private $parser;
 
-    public function testParseQnaData(){
+    public function testParseQnaData()
+    {
         $structureParser = new V20DataStructureParser(new V20CodelistParser());
         $dsd = $structureParser->parse(V20ParserFixtures::getDataStructure())[0];
         $result = $this->parser->parse(V20ParserFixtures::getQnaData(), $dsd, 'QNA', true);
@@ -30,7 +31,7 @@ class V20DataParserTest extends TestCase
             $this->assertEquals($tokens[1], $line->getDimensionValue($tokens[0]));
         }
 
-        $lineAttrData= 'TIME_FORMAT=P3M,UNIT=AUD,POWERCODE=6,REFERENCEPERIOD=2010';
+        $lineAttrData = 'TIME_FORMAT=P3M,UNIT=AUD,POWERCODE=6,REFERENCEPERIOD=2010';
         $lineAttrData = explode(',', $lineAttrData);
         foreach ($lineAttrData as $datum) {
             $tokens = explode('=', $datum);
@@ -39,6 +40,7 @@ class V20DataParserTest extends TestCase
 
         $this->assertEquals([1372218.6306749999, 1387564.4511140001, 1404000.1627839999, 1417956.087089], $line->getObservations());
         $this->assertEquals(['2011-Q1', '2011-Q2', '2011-Q3', '2011-Q4'], $line->getTimeSlots());
+        $this->assertEquals(['1', '2', '3', '4'], $line->getObsLevelAttributes('TEST'));
     }
 
     protected function setUp()
