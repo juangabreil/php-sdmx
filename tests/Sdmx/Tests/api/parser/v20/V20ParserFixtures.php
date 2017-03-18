@@ -2,7 +2,7 @@
 
 namespace Sdmx\Tests\api\parser\v20;
 
-class ParserFixtures
+class V20ParserFixtures
 {
     const DATA_STRUCTURES_FILE = 'datastructures';
     const DATA_STRUCTURE_FILE = 'datastructure';

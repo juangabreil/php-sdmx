@@ -2,7 +2,7 @@
 
 namespace Sdmx\Tests\api\parser\v21;
 
-class ParserFixtures
+class V21ParserFixtures
 {
     const DATAFLOW_FILE = 'dataflow';
     const XML_EXTENSION = '.xml';
@@ -10,6 +10,7 @@ class ParserFixtures
     const CODELIST_FILE = 'codelist';
     const DATASTRUCTURE_FILE = 'datastructure';
     const EDU_NON_FINANCE_FILE = 'edu_non_finance_';
+    const QNA_DATA_FILE = 'qna_data';
 
     /**
      * @param string $number
@@ -33,6 +34,10 @@ class ParserFixtures
     public static function getEduNonFinance($data)
     {
         return file_get_contents(self::getFileUrl(self::EDU_NON_FINANCE_FILE, $data));
+    }
+
+    public static function getQnaData(){
+        return file_get_contents(self::getFileUrl(self::QNA_DATA_FILE));
     }
 
     private static function getFileUrl($filename, $suffix = '')

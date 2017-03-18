@@ -16,7 +16,7 @@ class V21DataflowParserTest extends TestCase
 
     public function testParseDataflowList()
     {
-        $result = $this->parser->parse(ParserFixtures::getDataflow());
+        $result = $this->parser->parse(V21ParserFixtures::getDataflow());
 
         $this->assertNotNull($result);
         $this->assertEquals(2, count($result));
@@ -27,7 +27,7 @@ class V21DataflowParserTest extends TestCase
 
     public function testParseDataflowWithoutName()
     {
-        $result = $this->parser->parse(ParserFixtures::getDataflow('1'));
+        $result = $this->parser->parse(V21ParserFixtures::getDataflow('1'));
 
         $this->assertNotNull($result);
         $this->assertEquals(1, count($result));
@@ -37,7 +37,7 @@ class V21DataflowParserTest extends TestCase
 
     public function testParseDataflowWithoutDsd()
     {
-        $result = $this->parser->parse(ParserFixtures::getDataflow('2'));
+        $result = $this->parser->parse(V21ParserFixtures::getDataflow('2'));
 
         $this->assertNotNull($result);
         $this->assertEquals(1, count($result));

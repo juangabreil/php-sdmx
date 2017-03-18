@@ -1,0 +1,156 @@
+<message:MessageGroup xmlns="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/generic"
+                      xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common"
+                      xsi:schemaLocation="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/generic http://www.sdmx.org/docs/2_0/SDMXGenericData.xsd http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message http://www.sdmx.org/docs/2_0/SDMXMessage.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:message="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message">
+    <Header xmlns="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message">
+        <ID>none</ID>
+        <Test>false</Test>
+        <Truncated>false</Truncated>
+        <Prepared>2017-03-18T18:14:19</Prepared>
+        <Sender id="OECD">
+            <Name xml:lang="en">Organisation for Economic Co-operation and Development</Name>
+            <Name xml:lang="fr">Organisation de coopération et de développement économiques</Name>
+        </Sender>
+    </Header>
+    <DataSet keyFamilyURI="http://stats.oecd.org/RestSDMX/sdmx.ashx/GetKeyFamily/QNA">
+        <KeyFamilyRef>QNA</KeyFamilyRef>
+        <Series>
+            <SeriesKey>
+                <Value concept="LOCATION" value="AUS"/>
+                <Value concept="SUBJECT" value="B1_GE"/>
+                <Value concept="MEASURE" value="VOBARSA"/>
+                <Value concept="FREQUENCY" value="Q"/>
+            </SeriesKey>
+            <Attributes>
+                <Value concept="TIME_FORMAT" value="P3M"/>
+                <Value concept="UNIT" value="AUD"/>
+                <Value concept="POWERCODE" value="6"/>
+                <Value concept="REFERENCEPERIOD" value="2010"/>
+            </Attributes>
+            <Obs>
+                <Time>2009-Q2</Time>
+                <ObsValue value="1325930.53235"/>
+            </Obs>
+            <Obs>
+                <Time>2009-Q3</Time>
+                <ObsValue value="1329921.736824"/>
+            </Obs>
+            <Obs>
+                <Time>2009-Q4</Time>
+                <ObsValue value="1339385.182638"/>
+            </Obs>
+            <Obs>
+                <Time>2010-Q1</Time>
+                <ObsValue value="1346122.001608"/>
+            </Obs>
+            <Obs>
+                <Time>2010-Q2</Time>
+                <ObsValue value="1354005.674766"/>
+            </Obs>
+            <Obs>
+                <Time>2010-Q3</Time>
+                <ObsValue value="1361893.145455"/>
+            </Obs>
+            <Obs>
+                <Time>2010-Q4</Time>
+                <ObsValue value="1375169.311813"/>
+            </Obs>
+            <Obs>
+                <Time>2011-Q1</Time>
+                <ObsValue value="1372218.630675"/>
+            </Obs>
+            <Obs>
+                <Time>2011-Q2</Time>
+                <ObsValue value="1387564.451114"/>
+            </Obs>
+            <Obs>
+                <Time>2011-Q3</Time>
+                <ObsValue value="1404000.162784"/>
+            </Obs>
+            <Obs>
+                <Time>2011-Q4</Time>
+                <ObsValue value="1417956.087089"/>
+            </Obs>
+        </Series>
+        <Series>
+            <SeriesKey>
+                <Value concept="LOCATION" value="AUT"/>
+                <Value concept="SUBJECT" value="B1_GE"/>
+                <Value concept="MEASURE" value="VOBARSA"/>
+                <Value concept="FREQUENCY" value="Q"/>
+            </SeriesKey>
+            <Attributes>
+                <Value concept="TIME_FORMAT" value="P3M"/>
+                <Value concept="UNIT" value="EUR"/>
+                <Value concept="POWERCODE" value="6"/>
+                <Value concept="REFERENCEPERIOD" value="2010"/>
+            </Attributes>
+            <Obs>
+                <Time>2009-Q2</Time>
+                <ObsValue value="286920.620974"/>
+            </Obs>
+            <Obs>
+                <Time>2009-Q3</Time>
+                <ObsValue value="288010.744978"/>
+            </Obs>
+            <Obs>
+                <Time>2009-Q4</Time>
+                <ObsValue value="291794.30499"/>
+            </Obs>
+            <Obs>
+                <Time>2010-Q1</Time>
+                <ObsValue value="288933.060981"/>
+            </Obs>
+            <Obs>
+                <Time>2010-Q2</Time>
+                <ObsValue value="294001.200998"/>
+            </Obs>
+            <Obs>
+                <Time>2010-Q3</Time>
+                <ObsValue value="296313.537006"/>
+            </Obs>
+            <Obs>
+                <Time>2010-Q4</Time>
+                <ObsValue value="298183.345012"/>
+            </Obs>
+            <Obs>
+                <Time>2011-Q1</Time>
+                <ObsValue value="303069.257029"/>
+            </Obs>
+            <Obs>
+                <Time>2011-Q2</Time>
+                <ObsValue value="303077.701029"/>
+            </Obs>
+            <Obs>
+                <Time>2011-Q3</Time>
+                <ObsValue value="303778.465031"/>
+            </Obs>
+            <Obs>
+                <Time>2011-Q4</Time>
+                <ObsValue value="302443.261027"/>
+            </Obs>
+        </Series>
+        <Annotations>
+            <common:Annotation xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common">
+                <common:AnnotationTitle>Copyright OECD - All rights reserved</common:AnnotationTitle>
+            </common:Annotation>
+            <common:Annotation xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common">
+                <common:AnnotationTitle>Terms and Conditions</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/termsandconditions/</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common">
+                <common:AnnotationTitle>Privacy Policy</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/privacy/</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common">
+                <common:AnnotationTitle>MyOECD</common:AnnotationTitle>
+                <common:AnnotationURL>https://www.oecd.org/login</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common">
+                <common:AnnotationTitle>Contact Us</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/contact/</common:AnnotationURL>
+            </common:Annotation>
+        </Annotations>
+    </DataSet>
+</message:MessageGroup>

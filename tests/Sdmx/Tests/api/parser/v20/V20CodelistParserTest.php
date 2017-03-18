@@ -23,7 +23,7 @@ class V20CodelistParserTest extends TestCase
 
     public function testParseCodelistNode()
     {
-        $xml = new SimpleXMLElement(ParserFixtures::getDataStructure());
+        $xml = new SimpleXMLElement(V20ParserFixtures::getDataStructure());
         $nodes = $xml->xpath('//*[name()="CodeList"]');
         $codelist = $this->parser->parseCodesFromNode($nodes[0]);
 
@@ -36,7 +36,7 @@ class V20CodelistParserTest extends TestCase
 
     public function testParseCodelist()
     {
-        $codelist = $this->parser->parseCodes(ParserFixtures::getDataStructure());
+        $codelist = $this->parser->parseCodes(V20ParserFixtures::getDataStructure());
 
         $this->assertNotNull($codelist);
         $this->assertEquals(58, count($codelist));

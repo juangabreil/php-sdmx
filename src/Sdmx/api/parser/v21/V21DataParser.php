@@ -23,15 +23,16 @@ class V21DataParser implements DataParser
      */
     public function parse($data, DataflowStructure $dsd, $dataflow, $containsData)
     {
-        $xml = new SimpleXMLElement($data);
+        $dataWithoutNs = $this->removeNamespaces($data);
+        $xml = new SimpleXMLElement($dataWithoutNs);
         $result = [];
 
-        $dataSet = $xml->xpath('/message:StructureSpecificData/message:DataSet')[0];
+        $dataSet = $xml->xpath('//DataSet')[0];
         $action = (string)$dataSet[self::ACTION];
         $validFrom = (string)$dataSet[self::VALID_FROM];
         $validTo = (string)$dataSet[self::VALID_TO];
 
-        $series = $dataSet->xpath('./ns1:Series');
+        $series = $dataSet->xpath('./Series');
         foreach ($series as $seriesLine) {
             $result[] = $this->parseSeriesLine($seriesLine, $dsd, $dataflow, $containsData, $action, $validFrom, $validTo);
         }
@@ -58,7 +59,7 @@ class V21DataParser implements DataParser
         $this->setMetadata($seriesLine, $dsd, $action, $validFrom, $validTo, $result);
 
         if ($containsData) {
-            $observations = $seriesLine->xpath('./ns1:Obs');
+            $observations = $seriesLine->xpath('./Obs');
             foreach ($observations as $observation) {
                 $this->processObservation($dsd, $observation, $result);
             }
@@ -141,5 +142,18 @@ class V21DataParser implements DataParser
         }
 
         $result->addObservation($obsVal, $time, $obsAttr);
+    }
+
+    /**
+     * @param string $data
+     * @return string
+     */
+    protected function removeNamespaces($data)
+    {
+        $dataWoNs = preg_replace('/xmlns[^=]*="[^"]*"/i', '', $data);
+        $dataWoNs =  preg_replace('/[a-zA-Z]+:([a-zA-Z]+[=>])/', '$1', $dataWoNs);
+        $dataWoNs = preg_replace('/(<\/*)[^>:]+:/', '$1', $dataWoNs);
+
+        return $dataWoNs;
     }
 }

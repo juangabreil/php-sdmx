@@ -1,0 +1,55 @@
+<message:CompactData xmlns="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message"
+                     xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common"
+                     xmlns:compact="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/compact"
+                     xmlns:OECD="http://oecd.stat.org/Data" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message http://www.sdmx.org/docs/2_0/SDMXMessage.xsd http://oecd.stat.org/Data http://stats.oecd.org/RestSDMX/sdmx.ashx/GetSchema/QNA"
+                     xmlns:message="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message">
+    <Header>
+        <ID>none</ID>
+        <Test>false</Test>
+        <Truncated>false</Truncated>
+        <Prepared>2017-03-18T12:58:49</Prepared>
+        <Sender id="OECD">
+            <Name xml:lang="en">Organisation for Economic Co-operation and Development</Name>
+            <Name xml:lang="fr">Organisation de coopération et de développement économiques</Name>
+        </Sender>
+    </Header>
+    <OECD:DataSet keyFamilyURI="http://stats.oecd.org/RestSDMX/sdmx.ashx/GetKeyFamily/QNA"
+                  xmlns:OECD="http://oecd.stat.org/Data">
+        <OECD:Series LOCATION="AUS" SUBJECT="B1_GE" MEASURE="VOBARSA" FREQUENCY="Q" TIME_FORMAT="P3M" UNIT="AUD"
+                     POWERCODE="6" REFERENCEPERIOD="2010">
+            <OECD:Obs TIME="2011-Q1" OBS_VALUE="1372218.630675"/>
+            <OECD:Obs TIME="2011-Q2" OBS_VALUE="1387564.451114"/>
+            <OECD:Obs TIME="2011-Q3" OBS_VALUE="1404000.162784"/>
+            <OECD:Obs TIME="2011-Q4" OBS_VALUE="1417956.087089"/>
+        </OECD:Series>
+        <OECD:Series LOCATION="AUT" SUBJECT="B1_GE" MEASURE="VOBARSA" FREQUENCY="Q" TIME_FORMAT="P3M" UNIT="EUR"
+                     POWERCODE="6" REFERENCEPERIOD="2010">
+            <OECD:Obs TIME="2011-Q1" OBS_VALUE="303069.257029"/>
+            <OECD:Obs TIME="2011-Q2" OBS_VALUE="303077.701029"/>
+            <OECD:Obs TIME="2011-Q3" OBS_VALUE="303778.465031"/>
+            <OECD:Obs TIME="2011-Q4" OBS_VALUE="302443.261027"/>
+        </OECD:Series>
+        <OECD:Annotations>
+            <common:Annotation xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common">
+                <common:AnnotationTitle>Copyright OECD - All rights reserved</common:AnnotationTitle>
+            </common:Annotation>
+            <common:Annotation xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common">
+                <common:AnnotationTitle>Terms and Conditions</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/termsandconditions/</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common">
+                <common:AnnotationTitle>Privacy Policy</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/privacy/</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common">
+                <common:AnnotationTitle>MyOECD</common:AnnotationTitle>
+                <common:AnnotationURL>https://www.oecd.org/login</common:AnnotationURL>
+            </common:Annotation>
+            <common:Annotation xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common">
+                <common:AnnotationTitle>Contact Us</common:AnnotationTitle>
+                <common:AnnotationURL>http://www.oecd.org/contact/</common:AnnotationURL>
+            </common:Annotation>
+        </OECD:Annotations>
+    </OECD:DataSet>
+</message:CompactData>

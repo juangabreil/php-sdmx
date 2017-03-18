@@ -21,7 +21,7 @@ class V21DataStructureParserTest extends TestCase
 
     public function testParseDataStructureWithoutChildren()
     {
-        $dataStructures = $this->parser->parse(ParserFixtures::getDatastructure());
+        $dataStructures = $this->parser->parse(V21ParserFixtures::getDatastructure());
 
         $this->assertNotNull($dataStructures);
         $this->assertEquals(1, count($dataStructures));
@@ -42,7 +42,7 @@ class V21DataStructureParserTest extends TestCase
 
     public function testParseDataStructureWithChildren()
     {
-        $dataStructures = $this->parser->parse(ParserFixtures::getDatastructure('1'));
+        $dataStructures = $this->parser->parse(V21ParserFixtures::getDatastructure('1'));
 
         $this->assertNotNull($dataStructures);
         $this->assertEquals(1, count($dataStructures));
