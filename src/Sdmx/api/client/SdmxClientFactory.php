@@ -7,8 +7,10 @@ use Sdmx\api\client\http\RequestHttpClient;
 use Sdmx\api\client\rest\DotStatClient;
 use Sdmx\api\client\rest\query\DotStatQueryBuilder;
 use Sdmx\api\client\rest\query\SdmxRestQueryBuilder;
+use Sdmx\api\client\rest\query\WorldBankQueryBuilder;
 use Sdmx\api\client\rest\RestSdmxV21Client;
 use Sdmx\api\parser\v20\V20CodelistParser;
+use Sdmx\api\parser\v20\V20DataParser;
 use Sdmx\api\parser\v20\V20DataStructureParser;
 use Sdmx\api\parser\v21\V21CodelistParser;
 use Sdmx\api\parser\v21\V21DataflowParser;
@@ -21,6 +23,8 @@ class SdmxClientFactory
     const UIS_SUBSCRIPTION_HEADER_KEY = 'Ocp-Apim-Subscription-key';
 
     const OECD_URL = 'http://stats.oecd.org/restsdmx/sdmx.ashx';
+
+    const WB_URL = 'http://api.worldbank.org';
 
     public static function getUisClient($apiKey)
     {
@@ -47,6 +51,19 @@ class SdmxClientFactory
         $dataParser = new V21DataParser();
 
         $client = new DotStatClient('OECD', $queryBuilder, $httpClient, $datastructureParser, $dataParser);
+
+        return $client;
+    }
+
+    public static function WorldBankClient()
+    {
+        $codelistParser = new V20CodelistParser();
+        $queryBuilder = new WorldBankQueryBuilder(self::WB_URL);
+        $httpClient = new RequestHttpClient();
+        $datastructureParser = new V20DataStructureParser($codelistParser);
+        $dataParser = new V20DataParser();
+
+        $client = new DotStatClient('World Bank', $queryBuilder, $httpClient, $datastructureParser, $dataParser);
 
         return $client;
     }

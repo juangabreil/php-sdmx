@@ -16,7 +16,7 @@ class DotStatQueryBuilder implements SdmxQueryBuilder
     /**
      * @var string $baseUrl
      */
-    private $baseUrl;
+    protected $baseUrl;
 
     /**
      * @var boolean $supportsCompactFormat
@@ -83,7 +83,11 @@ class DotStatQueryBuilder implements SdmxQueryBuilder
      */
     public function getDataQuery(Dataflow $dataflow, $resource, array $options = array())
     {
-        $query = StringUtils::joinArrayElements([$this->baseUrl, 'GetData', $dataflow->getId(), $resource], '/');
+        return $this->doGetDataQuery($dataflow, $resource, $options, 'GetData');
+    }
+
+    protected function doGetDataQuery(Dataflow $dataflow, $resource, array $options = array(), $path){
+        $query = StringUtils::joinArrayElements([$this->baseUrl, $path, $dataflow->getId(), $resource], '/');
         $queryString = $this->getDataQueryString($options);
 
         return $query . $queryString;
