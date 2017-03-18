@@ -29,34 +29,6 @@
                 <Value concept="REFERENCEPERIOD" value="2010"/>
             </Attributes>
             <Obs>
-                <Time>2009-Q2</Time>
-                <ObsValue value="1325930.53235"/>
-            </Obs>
-            <Obs>
-                <Time>2009-Q3</Time>
-                <ObsValue value="1329921.736824"/>
-            </Obs>
-            <Obs>
-                <Time>2009-Q4</Time>
-                <ObsValue value="1339385.182638"/>
-            </Obs>
-            <Obs>
-                <Time>2010-Q1</Time>
-                <ObsValue value="1346122.001608"/>
-            </Obs>
-            <Obs>
-                <Time>2010-Q2</Time>
-                <ObsValue value="1354005.674766"/>
-            </Obs>
-            <Obs>
-                <Time>2010-Q3</Time>
-                <ObsValue value="1361893.145455"/>
-            </Obs>
-            <Obs>
-                <Time>2010-Q4</Time>
-                <ObsValue value="1375169.311813"/>
-            </Obs>
-            <Obs>
                 <Time>2011-Q1</Time>
                 <ObsValue value="1372218.630675"/>
             </Obs>
@@ -86,34 +58,6 @@
                 <Value concept="POWERCODE" value="6"/>
                 <Value concept="REFERENCEPERIOD" value="2010"/>
             </Attributes>
-            <Obs>
-                <Time>2009-Q2</Time>
-                <ObsValue value="286920.620974"/>
-            </Obs>
-            <Obs>
-                <Time>2009-Q3</Time>
-                <ObsValue value="288010.744978"/>
-            </Obs>
-            <Obs>
-                <Time>2009-Q4</Time>
-                <ObsValue value="291794.30499"/>
-            </Obs>
-            <Obs>
-                <Time>2010-Q1</Time>
-                <ObsValue value="288933.060981"/>
-            </Obs>
-            <Obs>
-                <Time>2010-Q2</Time>
-                <ObsValue value="294001.200998"/>
-            </Obs>
-            <Obs>
-                <Time>2010-Q3</Time>
-                <ObsValue value="296313.537006"/>
-            </Obs>
-            <Obs>
-                <Time>2010-Q4</Time>
-                <ObsValue value="298183.345012"/>
-            </Obs>
             <Obs>
                 <Time>2011-Q1</Time>
                 <ObsValue value="303069.257029"/>

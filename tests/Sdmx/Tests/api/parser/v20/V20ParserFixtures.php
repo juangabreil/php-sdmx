@@ -8,6 +8,7 @@ class V20ParserFixtures
     const DATA_STRUCTURE_FILE = 'datastructure';
     const XML_EXTENSION = '.xml';
     const DATA_FOLDER = 'data';
+    const QNA_DATA_FILE = 'qna_data';
 
     /**
      * @return string
@@ -23,6 +24,14 @@ class V20ParserFixtures
     public static function getDataStructure()
     {
         return file_get_contents(self::getFileUrl(self::DATA_STRUCTURE_FILE));
+    }
+
+    /**
+     * @return string
+     */
+    public static function getQnaData()
+    {
+        return file_get_contents(self::getFileUrl(self::QNA_DATA_FILE));
     }
 
     private static function getFileUrl($filename, $suffix = '')
