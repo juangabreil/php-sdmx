@@ -18,6 +18,11 @@ class DotStatClient implements SdmxClient
 {
 
     /**
+     * @var string $name
+     */
+    private $name;
+
+    /**
      * @var SdmxQueryBuilder $queryBuilder
      */
     private $queryBuilder;
@@ -39,13 +44,15 @@ class DotStatClient implements SdmxClient
 
     /**
      * RestSdmxV20Client constructor.
+     * @param string $name
      * @param SdmxQueryBuilder $queryBuilder
      * @param HttpClient $httpClient
      * @param DataStructureParser $dataStructureParser
      * @param DataParser $dataParser
      */
-    public function __construct(SdmxQueryBuilder $queryBuilder, HttpClient $httpClient, DataStructureParser $dataStructureParser, DataParser $dataParser)
+    public function __construct($name, SdmxQueryBuilder $queryBuilder, HttpClient $httpClient, DataStructureParser $dataStructureParser, DataParser $dataParser)
     {
+        $this->name = $name;
         $this->queryBuilder = $queryBuilder;
         $this->httpClient = $httpClient;
         $this->dataStructureParser = $dataStructureParser;
