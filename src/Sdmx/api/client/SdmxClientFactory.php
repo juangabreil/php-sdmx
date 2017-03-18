@@ -55,7 +55,7 @@ class SdmxClientFactory
         return $client;
     }
 
-    public static function WorldBankClient()
+    public static function getWorldBankClient()
     {
         $codelistParser = new V20CodelistParser();
         $queryBuilder = new WorldBankQueryBuilder(self::WB_URL);
