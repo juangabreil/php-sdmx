@@ -11,6 +11,7 @@ use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\DsdIdentifier;
 use Sdmx\api\entities\PortableTimeSeries;
 use Sdmx\api\exceptions\UnsupportedOperationException;
+use Sdmx\api\parser\DataParser;
 use Sdmx\api\parser\DataStructureParser;
 
 class DotStatClient implements SdmxClient
@@ -32,15 +33,23 @@ class DotStatClient implements SdmxClient
     private $dataStructureParser;
 
     /**
+     * @var DataParser $dataParser
+     */
+    private $dataParser;
+
+    /**
      * RestSdmxV20Client constructor.
      * @param SdmxQueryBuilder $queryBuilder
      * @param HttpClient $httpClient
+     * @param DataStructureParser $dataStructureParser
+     * @param DataParser $dataParser
      */
-    public function __construct(SdmxQueryBuilder $queryBuilder, HttpClient $httpClient, DataStructureParser $dataStructureParser)
+    public function __construct(SdmxQueryBuilder $queryBuilder, HttpClient $httpClient, DataStructureParser $dataStructureParser, DataParser $dataParser)
     {
         $this->queryBuilder = $queryBuilder;
         $this->httpClient = $httpClient;
         $this->dataStructureParser = $dataStructureParser;
+        $this->dataParser = $dataParser;
     }
 
 
@@ -121,7 +130,10 @@ class DotStatClient implements SdmxClient
      */
     public function getTimeSeries(Dataflow $dataflow, DataflowStructure $dsd, $resource, array $options = array())
     {
-        // TODO: Implement getTimeSeries() method.
+        $query = $this->queryBuilder->getDataQuery($dataflow, $resource, $options);
+        $response = $this->httpClient->get($query);
+
+        return $this->dataParser->parse($response, $dsd, $dataflow->getId(), true);
     }
 
     /**
@@ -140,7 +152,11 @@ class DotStatClient implements SdmxClient
      */
     public function getTimeSeries2($dataflow, $agency, $version, $resource, array $options = array())
     {
-        // TODO: Implement getTimeSeries2() method.
+        $dsdIdentifier = new DsdIdentifier($dataflow, $agency, $version);
+        $dsd = $this->getDataflowStructure($dsdIdentifier);
+        $dataflowData = $this->mapStructureToDataflow($dsd);
+
+        return $this->getTimeSeries($dataflowData, $dsd, $resource, $options);
     }
 
     /**

@@ -15,6 +15,7 @@ use Sdmx\api\client\SdmxClient;
 use Sdmx\api\entities\Dataflow;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\DsdIdentifier;
+use Sdmx\api\parser\DataParser;
 use Sdmx\api\parser\DataStructureParser;
 use Sdmx\api\parser\v20\V20DataStructureParser;
 
@@ -32,13 +33,17 @@ class DotStatClientTest extends TestCase
      */
     private $queryBuilderMock;
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject $httpClient
+     * @var PHPUnit_Framework_MockObject_MockObject $httpClientMock
      */
     private $httpClientMock;
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject $datastructureParser
+     * @var PHPUnit_Framework_MockObject_MockObject $datastructureParserMock
      */
     private $datastructureParserMock;
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject $dataParserMock
+     */
+    private $dataParserMock;
 
     public function testGetDataflows()
     {
@@ -272,15 +277,149 @@ class DotStatClientTest extends TestCase
         $this->client->getCodes('SomeCodelist', 'SomeAgency', 'SomeVersion');
     }
 
+    public function testGetTimeSeries()
+    {
+        $flow = new Dataflow();
+        $flow->setId('SomeFlow');
+        $dsd = new DataflowStructure();
+        $resource = 'a.b.c';
+        $options = [];
+
+        $generatedQuery = 'SomeQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDataQuery')
+            ->with(
+                $flow,
+                $resource,
+                $options
+            )
+            ->willReturn($generatedQuery);
+
+        $XmlResponse = 'SomeXmlData';
+        $this->httpClientMock
+            ->expects($this->once())
+            ->method('get')
+            ->with($generatedQuery)
+            ->willReturn($XmlResponse);
+
+        $parsedTimeSeries = [];
+        $this->dataParserMock
+            ->expects($this->once())
+            ->method('parse')
+            ->with(
+                $XmlResponse,
+                $dsd,
+                'SomeFlow',
+                true
+            )
+            ->willReturn($parsedTimeSeries);
+
+        $timeSeries = $this->client->getTimeSeries($flow, $dsd, $resource, $options);
+
+        $this->assertSame($parsedTimeSeries, $timeSeries);
+    }
+
+    public function testGetTimeSeriesFromScratch()
+    {
+        $version = 'SomeVersion';
+        $agency = 'SomeAgency';
+        $dataflow = 'SomeFlow';
+        $flow = new Dataflow();
+        $flow->setId($dataflow);
+        $flow->setAgency($agency);
+        $flow->setVersion($version);
+        $flow->setDsdIdentifier(new DsdIdentifier($dataflow, $agency, $version));
+        $dsd = new DataflowStructure();
+        $dsd->setId($dataflow);
+        $dsd->setVersion($version);
+        $dsd->setAgency($agency);
+        $resource = 'a.b.c';
+        $options = [];
+
+        $this->httpClientMock
+            ->method('get')
+            ->with($this->logicalOr(
+                $this->equalTo('SomeStructureQuery'),
+                $this->equalTo('SomeDataQuery')
+            ))
+            ->willReturn('SomeXmlData');
+
+        $this->prepareGetDatastructure($dsd);
+        $parsedTimeSeries = $this->prepareGetCode($flow, $resource, $options, $dsd);
+
+        $timeSeries = $this->client->getTimeSeries2($dataflow, $agency, $version, $resource, $options);
+
+        $this->assertSame($parsedTimeSeries, $timeSeries);
+    }
+
+    private function prepareGetDatastructure(DataflowStructure $dsd){
+        $generatedQuery = 'SomeStructureQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDsdQuery')
+            ->with(
+                'SomeFlow',
+                'SomeAgency',
+                'SomeVersion'
+            )
+            ->willReturn($generatedQuery);
+
+
+        $parsedDataflowStructures = array($dsd);
+        $this->datastructureParserMock
+            ->expects($this->once())
+            ->method('parse')
+            ->with('SomeXmlData')
+            ->willReturn($parsedDataflowStructures);
+    }
+
+    /**
+     * @param $flow
+     * @param $resource
+     * @param $options
+     * @param $dsd
+     * @return array
+     */
+    private function prepareGetCode($flow, $resource, $options, $dsd)
+    {
+        $generatedQuery = 'SomeDataQuery';
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('getDataQuery')
+            ->with(
+                $flow,
+                $resource,
+                $options
+            )
+            ->willReturn($generatedQuery);
+
+        $parsedTimeSeries = [];
+        $this->dataParserMock
+            ->expects($this->once())
+            ->method('parse')
+            ->with(
+                'SomeXmlData',
+                $dsd,
+                'SomeFlow',
+                true
+            )
+            ->willReturn($parsedTimeSeries);
+
+        return $parsedTimeSeries;
+    }
+
     protected function setUp()
     {
         $this->queryBuilderMock = $this->getMockBuilder(SdmxQueryBuilder::class)->getMock();
         $this->httpClientMock = $this->getMockBuilder(HttpClient::class)->getMock();
         $this->datastructureParserMock = $this->getMockBuilder(DataStructureParser::class)->getMock();
+        $this->dataParserMock = $this->getMockBuilder(DataParser::class)->getMock();
         $this->client = new DotStatClient(
             $this->queryBuilderMock,
             $this->httpClientMock,
-            $this->datastructureParserMock
+            $this->datastructureParserMock,
+            $this->dataParserMock
         );
     }
 
