@@ -14,6 +14,7 @@ use Sdmx\api\parser\v21\V21DataStructureParser;
 class SdmxClientFactory
 {
     const UIS_URL = 'https://api.uis.unesco.org/sdmx';
+    const UIS_SUBSCRIPTION_HEADER_KEY = 'Ocp-Apim-Subscription-key';
 
     public static function getUisClient($apiKey)
     {
@@ -24,7 +25,7 @@ class SdmxClientFactory
         $datastructureParser = new V21DataStructureParser($codelistParser);
         $dataParser = new V21DataParser();
 
-        $httpClient->setPredefinedHeaders(array('Ocp-Apim-Subscription-key' => $apiKey));
+        $httpClient->setPredefinedHeaders(array(self::UIS_SUBSCRIPTION_HEADER_KEY => $apiKey));
 
         $client = new RestSdmxV21Client('UIS', $queryBuilder, $httpClient, $dataflowParser, $datastructureParser, $codelistParser, $dataParser);
 

@@ -4,10 +4,14 @@ namespace Sdmx\api\client\rest\query;
 
 
 use Sdmx\api\entities\Dataflow;
+use Sdmx\api\exceptions\UnsupportedOperationException;
 use Sdmx\util\StringUtils;
 
 class DotStatQueryBuilder implements SdmxQueryBuilder
 {
+
+    const COMPACT_FORMAT = 'compact_v2';
+    const FORMAT_PARAM = 'format';
 
     /**
      * @var string $baseUrl
@@ -15,12 +19,19 @@ class DotStatQueryBuilder implements SdmxQueryBuilder
     private $baseUrl;
 
     /**
+     * @var boolean $supportsCompactFormat
+     */
+    private $supportsCompactFormat;
+
+    /**
      * DotStatQueryBuilder constructor.
      * @param string $baseUrl
+     * @param boolean $supportsCompactFormat
      */
-    public function __construct($baseUrl)
+    public function __construct($baseUrl, $supportsCompactFormat)
     {
         $this->baseUrl = $baseUrl;
+        $this->supportsCompactFormat = $supportsCompactFormat;
     }
 
 
@@ -55,7 +66,7 @@ class DotStatQueryBuilder implements SdmxQueryBuilder
      */
     public function getCodelistQuery($codelist, $agency, $version)
     {
-        // TODO: Implement getCodelistQuery() method.
+        throw new UnsupportedOperationException('This method is not supported by dot stat api\'s');
     }
 
     /**
@@ -66,14 +77,32 @@ class DotStatQueryBuilder implements SdmxQueryBuilder
      * $options = array(
      *      'startPeriod' => 'string', //Start time of the observations to be gathered
      *      'endPeriod' => 'string', //End time of the observations to be gathered
-     *      'seriesKeysOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
-     *      'lastNObservations' => 'integer' //The last 'n' observations to return for each matched series.
      * )
      * ```
      * @return string
      */
     public function getDataQuery(Dataflow $dataflow, $resource, array $options = array())
     {
-        // TODO: Implement getDataQuery() method.
+        $query = StringUtils::joinArrayElements([$this->baseUrl, 'GetData', $dataflow->getId(), $resource], '/');
+        $queryString = $this->getDataQueryString($options);
+
+        return $query . $queryString;
+    }
+
+    /**
+     * @param array $options
+     * @return string
+     */
+    protected function getDataQueryString(array $options)
+    {
+        $queryString = '';
+        if ($this->supportsCompactFormat) {
+            $options[self::FORMAT_PARAM] = self::COMPACT_FORMAT;
+        }
+        if (count($options) > 0) {
+            $params = join('&', array_map(function ($key, $value) { return "$key=$value"; }, array_keys($options), $options));
+            $queryString = '?' . $params;
+        }
+        return $queryString;
     }
 }

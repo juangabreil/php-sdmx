@@ -4,12 +4,14 @@ namespace Sdmx\Tests\api\client\rest\query;
 
 
 use PHPUnit\Framework\TestCase;
+use Sdmx\api\client\rest\query\DotStatQueryBuilder;
 use Sdmx\api\client\rest\query\SdmxQueryBuilder;
 use Sdmx\api\client\rest\query\SdmxRestQueryBuilder;
 use Sdmx\api\entities\Dataflow;
+use Sdmx\api\exceptions\UnsupportedOperationException;
 
 
-class SdmxQueryBuilderTest extends TestCase
+class DotStatQueryBuilderTest extends TestCase
 {
     const BASE_URL = 'http://some.base.url';
 
@@ -20,14 +22,14 @@ class SdmxQueryBuilderTest extends TestCase
 
     protected function setUp()
     {
-        $this->sdmxQueryBuilder = new SdmxRestQueryBuilder(self::BASE_URL);
+        $this->sdmxQueryBuilder = new DotStatQueryBuilder(self::BASE_URL, false);
     }
 
     public function testGetDataflowQuery()
     {
         $query = $this->sdmxQueryBuilder->getDataflowQuery('UNESCO', 'all', 'latest');
 
-        $expected = self::BASE_URL . '/dataflow/UNESCO/all/latest';
+        $expected = self::BASE_URL . '/GetDataStructure/all';
         $this->assertEquals($expected, $query);
     }
 
@@ -35,15 +37,7 @@ class SdmxQueryBuilderTest extends TestCase
     {
         $query = $this->sdmxQueryBuilder->getDsdQuery('EDU_REGION', 'UNESCO', 'latest', false);
 
-        $expected = self::BASE_URL . '/datastructure/UNESCO/EDU_REGION/latest';
-        $this->assertEquals($expected, $query);
-    }
-
-    public function testGetVersionlessDsdQuery()
-    {
-        $query = $this->sdmxQueryBuilder->getDsdQuery('EDU_REGION', 'UNESCO', '', false);
-
-        $expected = self::BASE_URL . '/datastructure/UNESCO/EDU_REGION';
+        $expected = self::BASE_URL . '/GetDataStructure/EDU_REGION';
         $this->assertEquals($expected, $query);
     }
 
@@ -51,16 +45,16 @@ class SdmxQueryBuilderTest extends TestCase
     {
         $query = $this->sdmxQueryBuilder->getDsdQuery('EDU_REGION', 'UNESCO', 'latest', true);
 
-        $expected = self::BASE_URL . '/datastructure/UNESCO/EDU_REGION/latest?references=children';
+        $expected = self::BASE_URL . '/GetDataStructure/EDU_REGION';
         $this->assertEquals($expected, $query);
     }
 
+    /**
+     * @expectedException Sdmx\api\exceptions\UnsupportedOperationException
+     */
     public function testGetCodelistQuery()
     {
-        $query = $this->sdmxQueryBuilder->getCodelistQuery('CL_NUMBERS', 'UNESCO', 'latest');
-
-        $expected = self::BASE_URL . '/codelist/UNESCO/CL_NUMBERS/latest';
-        $this->assertEquals($expected, $query);
+        $this->sdmxQueryBuilder->getCodelistQuery('CL_NUMBERS', 'UNESCO', 'latest');
     }
 
     public function testGetDataQueryWithoutParams()
@@ -71,7 +65,7 @@ class SdmxQueryBuilderTest extends TestCase
         $df->setVersion('1.0');
         $query = $this->sdmxQueryBuilder->getDataQuery($df, 'a.b.c.d');
 
-        $expected = self::BASE_URL . '/data/UNESCO,EDU_FINANCE,1.0/a.b.c.d';
+        $expected = self::BASE_URL . '/GetData/EDU_FINANCE/a.b.c.d';
         $this->assertEquals($expected, $query);
     }
 
@@ -81,9 +75,9 @@ class SdmxQueryBuilderTest extends TestCase
         $df->setId('EDU_FINANCE');
         $df->setAgency('UNESCO');
         $df->setVersion('1.0');
-        $query = $this->sdmxQueryBuilder->getDataQuery($df, 'a.b.c.d', array('startPeriod' => '2000', 'endPeriod' => '2010', 'seriesKeysOnly' => true));
+        $query = $this->sdmxQueryBuilder->getDataQuery($df, 'a.b.c.d', array('startPeriod' => '2000', 'endPeriod' => '2010'));
 
-        $expected = self::BASE_URL . '/data/UNESCO,EDU_FINANCE,1.0/a.b.c.d?startPeriod=2000&endPeriod=2010&detail=serieskeysonly';
+        $expected = self::BASE_URL . '/GetData/EDU_FINANCE/a.b.c.d?startPeriod=2000&endPeriod=2010';
         $this->assertEquals($expected, $query);
     }
 }

@@ -71,7 +71,7 @@ class SdmxRestQueryBuilder implements SdmxQueryBuilder
      * $options = array(
      *      'startPeriod' => 'string', //Start time of the observations to be gathered
      *      'endPeriod' => 'string', //End time of the observations to be gathered
-     *      'seriesKeysOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
+     *      'seriesOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
      *      'lastNObservations' => 'integer' //The last 'n' observations to return for each matched series.
      * )
      * ```
@@ -80,33 +80,26 @@ class SdmxRestQueryBuilder implements SdmxQueryBuilder
     public function getDataQuery(Dataflow $dataflow, $resource, array $options = array())
     {
         $query = StringUtils::joinArrayElements([$this->baseUrl, 'data', $dataflow->getFullIdentifier(), $resource], '/');
-        $queryString = '';
-        if (count($options) > 0) {
-            $preparedOptions = $this->prepareOptions($options);
-            $queryString = '?' . join('&', array_map(function ($key, $value) {
-                    return "$key=$value";
-                }, array_keys($preparedOptions), $preparedOptions));
-        }
+        $queryString = $this->getDataQueryString($options);
 
         return $query . $queryString;
     }
 
     /**
      * @param array $options
-     * @return array
+     * @return string
      */
-    private function prepareOptions(array $options)
+    protected function getDataQueryString(array $options)
     {
-        $copy = [];
-        foreach ($options as $key => $value) {
-            $copy[$key] = $value;
+        $queryString = '';
+        if (count($options) > 0) {
+            if(array_key_exists(SdmxQueryBuilder::SERIES_ONLY, $options)){
+                unset($options[SdmxQueryBuilder::SERIES_ONLY]);
+                $options[SdmxQueryBuilder::DETAIL_PARAM] = SdmxQueryBuilder::SERIES_KEY_ONLY;
+            }
+            $params = join('&', array_map(function ($key, $value) { return "$key=$value"; }, array_keys($options), $options));
+            $queryString = '?'.$params;
         }
-
-        if (array_key_exists('seriesKeysOnly', $copy) && $copy['seriesKeysOnly'] === true) {
-            unset($copy['seriesKeysOnly']);
-            $copy['detail'] = 'serieskeysonly';
-        }
-
-        return $copy;
+        return $queryString;
     }
 }

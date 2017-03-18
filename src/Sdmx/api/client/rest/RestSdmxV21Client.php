@@ -182,7 +182,7 @@ class RestSdmxV21Client implements SdmxClient
      * $options = array(
      *      'startPeriod' => 'string', //Start time of the observations to be gathered
      *      'endPeriod' => 'string', //End time of the observations to be gathered
-     *      'seriesKeysOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
+     *      'seriesOnly' => 'boolean', //Flag for disabling data and attributes processing (usually for getting the only dataflow contents)
      *      'lastNObservations' => 'integer' //The last 'n' observations to return for each matched series.
      * )
      * ```
