@@ -4,6 +4,7 @@ namespace Sdmx\api\parser\v20;
 
 
 use Sdmx\api\parser\CodelistParser;
+use Sdmx\api\parser\ParserUtils;
 use SimpleXMLElement;
 
 class V20CodelistParser implements CodelistParser
@@ -18,10 +19,10 @@ class V20CodelistParser implements CodelistParser
     {
         $result = [];
 
-        $codes = $data->xpath('./*[name()="Code"]');
+        $codes = $data->xpath('./Code');
 
         foreach ($codes as $code){
-            $name = $code->xpath('./*[name()="Description"][@xml:lang="en"]');
+            $name = $code->xpath('./Description[@lang="en"]');
             if(count($name) > 0){
                 $result[(string) $code['value']] = (string)$name[0];
             }
@@ -37,7 +38,7 @@ class V20CodelistParser implements CodelistParser
      */
     public function parseCodes($data)
     {
-        $xml = new SimpleXMLElement($data);
-        return $this->parseCodesFromNode($xml->xpath('//message:CodeLists/*[name()="CodeList"]')[0]);
+        $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
+        return $this->parseCodesFromNode($xml->xpath('//CodeLists/CodeList')[0]);
     }
 }

@@ -8,6 +8,7 @@ use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\Dimension;
 use Sdmx\api\parser\CodelistParser;
 use Sdmx\api\parser\DataStructureParser;
+use Sdmx\api\parser\ParserUtils;
 use SimpleXMLElement;
 
 class V20DataStructureParser implements DataStructureParser
@@ -34,7 +35,7 @@ class V20DataStructureParser implements DataStructureParser
      */
     public function parse($data)
     {
-        $xml = new SimpleXMLElement($data);
+        $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
 
         $codelists = $this->parseCodelists($xml);
         $concepts = $this->parseConcepts($xml);
@@ -48,7 +49,7 @@ class V20DataStructureParser implements DataStructureParser
      */
     private function parseCodelists(SimpleXMLElement $xml)
     {
-        $codelists = $xml->xpath('/message:Structure/message:CodeLists/*[name()="CodeList"]');
+        $codelists = $xml->xpath('/Structure/CodeLists/CodeList');
         $result = [];
         foreach ($codelists as $codelist) {
             $codelistName = $this->getCodelistName($codelist);
@@ -76,7 +77,7 @@ class V20DataStructureParser implements DataStructureParser
      */
     private function parseConcepts(SimpleXMLElement $xml)
     {
-        $concepts = $xml->xpath('/message:Structure/message:Concepts/*[name()="Concept"]');
+        $concepts = $xml->xpath('/Structure/Concepts/Concept');
         $result = [];
 
         foreach ($concepts as $concept) {
@@ -95,7 +96,7 @@ class V20DataStructureParser implements DataStructureParser
      */
     private function getConceptName(SimpleXMLElement $concept)
     {
-        $name = $concept->xpath('./*[name()="Name"][@xml:lang="en"]');
+        $name = $concept->xpath('./Name[@lang="en"]');
 
         return count($name) > 0 ? (string)$name[0] : '';
     }
@@ -109,7 +110,7 @@ class V20DataStructureParser implements DataStructureParser
     private function parseDataStructures(SimpleXMLElement $xml, array $codelists, array $concepts)
     {
         $result = [];
-        $families = $xml->xpath('/message:Structure/message:KeyFamilies/*[name()="KeyFamily"]');
+        $families = $xml->xpath('/Structure/KeyFamilies/KeyFamily');
 
         foreach ($families as $family) {
             $result[] = $this->parseStructure($family, $codelists, $concepts);
@@ -144,7 +145,7 @@ class V20DataStructureParser implements DataStructureParser
         $structure->setId((string)$family['id']);
         $structure->setAgency((string)$family['agencyID']);
 
-        $name = $family->xpath('./*[name()="Name"][@xml:lang="en"]');
+        $name = $family->xpath('./Name[@lang="en"]');
         if (count($name) > 0) {
             $structure->setName((string)$name[0]);
         }
@@ -158,7 +159,7 @@ class V20DataStructureParser implements DataStructureParser
      */
     private function fillDsDimensionData(SimpleXMLElement $family, DataflowStructure $flowStructure, array $codelists, array $concepts)
     {
-        $dimensions = $family->xpath('./*[name()="Components"]/*[name()="Dimension"]');
+        $dimensions = $family->xpath('./Components/Dimension');
         $position = 0;
         foreach ($dimensions as $dimension) {
             $parsedDimension = $this->parseDimension($dimension, $flowStructure->getAgency(), $concepts, ++$position);
@@ -232,7 +233,7 @@ class V20DataStructureParser implements DataStructureParser
      */
     private function parseTimeDimension(SimpleXMLElement $family)
     {
-        $timeDimension = $family->xpath('./*[name()="Components"]/*[name()="TimeDimension"]');
+        $timeDimension = $family->xpath('./Components/TimeDimension');
 
         if (count($timeDimension) == 0) {
             return '';
@@ -249,9 +250,9 @@ class V20DataStructureParser implements DataStructureParser
      */
     private function fillMeasure($family, $structure)
     {
-        $measure = $family->xpath('./*[name()="Components"]/*[name()="PrimaryMeasure"]');
+        $measure = $family->xpath('./Components/PrimaryMeasure');
 
-        if(count($measure) > 0){
+        if (count($measure) > 0) {
             $measure = $measure[0];
             $structure->setMeasure((string)$measure['conceptRef']);
         }

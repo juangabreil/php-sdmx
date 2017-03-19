@@ -5,6 +5,7 @@ namespace Sdmx\Tests\api\parser\v20;
 
 use PHPUnit\Framework\TestCase;
 use Sdmx\api\parser\CodelistParser;
+use Sdmx\api\parser\ParserUtils;
 use Sdmx\api\parser\v20\V20CodelistParser;
 use SimpleXMLElement;
 
@@ -23,8 +24,8 @@ class V20CodelistParserTest extends TestCase
 
     public function testParseCodelistNode()
     {
-        $xml = new SimpleXMLElement(V20ParserFixtures::getDataStructure());
-        $nodes = $xml->xpath('//*[name()="CodeList"]');
+        $xml = new SimpleXMLElement(ParserUtils::removeNamespaces(V20ParserFixtures::getDataStructure()));
+        $nodes = $xml->xpath('//CodeList');
         $codelist = $this->parser->parseCodesFromNode($nodes[0]);
 
         $this->assertNotNull($codelist);

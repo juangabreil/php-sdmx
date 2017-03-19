@@ -6,6 +6,7 @@ namespace Sdmx\api\parser\v21;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\PortableTimeSeries;
 use Sdmx\api\parser\DataParser;
+use Sdmx\api\parser\ParserUtils;
 use SimpleXMLElement;
 
 class V21DataParser implements DataParser
@@ -23,7 +24,7 @@ class V21DataParser implements DataParser
      */
     public function parse($data, DataflowStructure $dsd, $dataflow, $containsData)
     {
-        $dataWithoutNs = $this->removeNamespaces($data);
+        $dataWithoutNs = ParserUtils::removeNamespaces($data);
         $xml = new SimpleXMLElement($dataWithoutNs);
         $result = [];
 
@@ -142,18 +143,5 @@ class V21DataParser implements DataParser
         }
 
         $result->addObservation($obsVal, $time, $obsAttr);
-    }
-
-    /**
-     * @param string $data
-     * @return string
-     */
-    protected function removeNamespaces($data)
-    {
-        $dataWoNs = preg_replace('/xmlns[^=]*="[^"]*"/i', '', $data);
-        $dataWoNs =  preg_replace('/[a-zA-Z]+:([a-zA-Z]+[=>])/', '$1', $dataWoNs);
-        $dataWoNs = preg_replace('/(<\/*)[^>:]+:/', '$1', $dataWoNs);
-
-        return $dataWoNs;
     }
 }
