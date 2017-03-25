@@ -6,6 +6,7 @@ namespace Sdmx\api\parser\v20;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\PortableTimeSeries;
 use Sdmx\api\parser\DataParser;
+use Sdmx\api\parser\ParserUtils;
 use SimpleXMLElement;
 
 class V20DataParser implements DataParser
@@ -20,9 +21,10 @@ class V20DataParser implements DataParser
      */
     public function parse($data, DataflowStructure $dsd, $dataflow, $containsData)
     {
-        $xml = new SimpleXMLElement($data);
+        $dataWoNs = ParserUtils::removeNamespaces($data);
+        $xml = new SimpleXMLElement($dataWoNs);
         $result = [];
-        $series = $xml->xpath('//*[name()="Series"]');
+        $series = $xml->xpath('//Series');
         foreach ($series as $seriesLine) {
             $result[] = $this->parseSeries($seriesLine, $dsd, $dataflow, $containsData);
         }
@@ -60,7 +62,7 @@ class V20DataParser implements DataParser
     private function parseDimensions($series, $portableSeries, $dsd)
     {
         $dimensions = [];
-        $dimensionValues = $series->xpath('./*[name()="SeriesKey"]/*[name()="Value"]');
+        $dimensionValues = $series->xpath('./SeriesKey/Value');
         foreach ($dimensionValues as $dim) {
             $id = (string)$dim['concept'];
             $value = (string)$dim['value'];
@@ -81,7 +83,7 @@ class V20DataParser implements DataParser
      */
     private function parseAttributes($series, $portableSeries)
     {
-        $attributes = $series->xpath('./*[name()="Attributes"]/*[name()="Value"]');
+        $attributes = $series->xpath('./Attributes/Value');
         foreach ($attributes as $attr) {
             $portableSeries->addAttribute((string)$attr['concept'], (string)$attr['value']);
         }
@@ -93,12 +95,12 @@ class V20DataParser implements DataParser
      */
     private function parseObservations($series, $portableSeries)
     {
-        $observations = $series->xpath('./*[name()="Obs"]');
+        $observations = $series->xpath('./Obs');
         foreach ($observations as $observation) {
-            $time = (string)$observation->xpath('./*[name()="Time"]')[0];
-            $obsValue = (string)$observation->xpath('./*[name()="ObsValue"]')[0]['value'];
+            $time = (string)$observation->xpath('./Time')[0];
+            $obsValue = (string)$observation->xpath('./ObsValue')[0]['value'];
             $attributes = [];
-            foreach ($observation->xpath('./*[name()="Value"]') as $value) {
+            foreach ($observation->xpath('./Value') as $value) {
                 $attributes[(string)$value['concept']] = (string)$value['value'];
             }
             $portableSeries->addObservation($obsValue, $time, $attributes);
