@@ -8,6 +8,7 @@ use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\Dimension;
 use Sdmx\api\parser\CodelistParser;
 use Sdmx\api\parser\DataStructureParser;
+use Sdmx\api\parser\ParserUtils;
 use SimpleXMLElement;
 
 class V21DataStructureParser implements DataStructureParser
@@ -34,7 +35,8 @@ class V21DataStructureParser implements DataStructureParser
      */
     public function parse($data)
     {
-        $xml = new SimpleXMLElement($data);
+        $dataWoNs = ParserUtils::removeNamespaces($data);
+        $xml = new SimpleXMLElement($dataWoNs);
 
         $codelists = $this->parseCodelists($xml);
         $concepts = $this->parseConcepts($xml);
@@ -48,7 +50,7 @@ class V21DataStructureParser implements DataStructureParser
      */
     private function parseCodelists(SimpleXMLElement $xml)
     {
-        $codelists = $xml->xpath('/mes:Structure/mes:Structures/str:Codelists/str:Codelist');
+        $codelists = $xml->xpath('/Structure/Structures/Codelists/Codelist');
         $result = [];
         foreach ($codelists as $codelist) {
             $codelistName = $this->getCodelistName($codelist);
@@ -64,13 +66,13 @@ class V21DataStructureParser implements DataStructureParser
      */
     private function parseConcepts(SimpleXMLElement $xml)
     {
-        $conceptSchemes = $xml->xpath('/mes:Structure/mes:Structures/str:Concepts/str:ConceptScheme');
+        $conceptSchemes = $xml->xpath('/Structure/Structures/Concepts/ConceptScheme');
         $result = [];
 
         foreach ($conceptSchemes as $conceptScheme) {
             $version = (string)$conceptScheme['version'];
             $agency = (string)$conceptScheme['agencyID'];
-            $concepts = $conceptScheme->xpath('./str:Concept');
+            $concepts = $conceptScheme->xpath('./Concept');
 
             foreach ($concepts as $concept) {
                 $id = (string)$concept['id'];
@@ -88,7 +90,7 @@ class V21DataStructureParser implements DataStructureParser
      */
     private function getConceptName(SimpleXMLElement $concept)
     {
-        $name = $concept->xpath('./com:Name[@xml:lang="en"]');
+        $name = $concept->xpath('./Name[@lang="en"]');
 
         return count($name) > 0 ? (string)$name[0] : '';
     }
@@ -103,7 +105,7 @@ class V21DataStructureParser implements DataStructureParser
     {
         $result = [];
 
-        $structures = $xml->xpath('/mes:Structure/mes:Structures/str:DataStructures/str:DataStructure');
+        $structures = $xml->xpath('/Structure/Structures/DataStructures/DataStructure');
         foreach ($structures as $structure) {
             $result[] = $this->parseDataStructure($structure, $codelists, $concepts);
         }
@@ -136,7 +138,7 @@ class V21DataStructureParser implements DataStructureParser
         $flowStructure->setAgency((string)$structure['agencyID']);
         $flowStructure->setId((string)$structure['id']);
         $flowStructure->setVersion((string)$structure['version']);
-        $name = $structure->xpath('./com:Name[@xml:lang="en"]');
+        $name = $structure->xpath('./Name[@lang="en"]');
         if (count($name) > 0) {
             $flowStructure->setName((string)$name[0]);
         }
@@ -150,7 +152,7 @@ class V21DataStructureParser implements DataStructureParser
      */
     private function fillDsDimensionData(SimpleXMLElement $structure, DataflowStructure $flowStructure, array $codelists, array $concepts)
     {
-        $dimensions = $structure->xpath('./str:DataStructureComponents/str:DimensionList/str:Dimension');
+        $dimensions = $structure->xpath('./DataStructureComponents/DimensionList/Dimension');
         $position = 0;
         foreach ($dimensions as $dimension) {
             $parsedDimension = $this->parseDimension($dimension, $concepts, ++$position);
@@ -190,7 +192,7 @@ class V21DataStructureParser implements DataStructureParser
      */
     private function parseDimensionCodeList(SimpleXMLElement $dimension)
     {
-        $localRepresentation = $dimension->xpath('./str:LocalRepresentation/str:Enumeration/Ref');
+        $localRepresentation = $dimension->xpath('./LocalRepresentation/Enumeration/Ref');
 
         if (count($localRepresentation) == 0) {
             return null;
@@ -212,7 +214,7 @@ class V21DataStructureParser implements DataStructureParser
      */
     private function getDimensionName(SimpleXMLElement $dimension, array $concepts)
     {
-        $concept = $dimension->xpath('./str:ConceptIdentity/Ref');
+        $concept = $dimension->xpath('./ConceptIdentity/Ref');
 
         if (count($concept) == 0) {
             return '';
@@ -232,7 +234,7 @@ class V21DataStructureParser implements DataStructureParser
      */
     private function parseTimeDimension(SimpleXMLElement $structure)
     {
-        $timeDimension = $structure->xpath('./str:DataStructureComponents/str:DimensionList/str:TimeDimension');
+        $timeDimension = $structure->xpath('./DataStructureComponents/DimensionList/TimeDimension');
 
         if (count($timeDimension) == 0) {
             return '';
