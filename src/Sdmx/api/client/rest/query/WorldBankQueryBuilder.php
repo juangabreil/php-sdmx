@@ -47,7 +47,7 @@ class WorldBankQueryBuilder extends DotStatQueryBuilder
     {
         // the WB provider is BETA and it handles data queries in an unconventional way
         // WDI : freq.series.area  --> area.series
-        $items = explode('\\.', $resource);
+        $items = explode('.', $resource);
         if(count($items) !== 3){
             return $resource;
         }
