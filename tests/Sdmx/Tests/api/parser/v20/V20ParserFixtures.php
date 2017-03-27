@@ -26,6 +26,14 @@ class V20ParserFixtures
         return file_get_contents(self::getFileUrl(self::DATA_STRUCTURE_FILE));
     }
 
+    public static function getWbDataStructure(){
+        return file_get_contents(self::getFileUrl('wb_structure'));
+    }
+
+    public static function getWbData(){
+        return file_get_contents(self::getFileUrl('wb_data'));
+    }
+
     /**
      * @return string
      */

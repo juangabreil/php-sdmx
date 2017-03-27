@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GenericData xmlns:generic="http://www.SDMX.org/resources/SDMXML/schemas/v2_1/generic"
+             xmlns="http://www.SDMX.org/resources/SDMXML/schemas/v2_1/message">
+    <Header>
+        <ID>WB</ID>
+        <Test>true</Test>
+        <Truncated>false</Truncated>
+        <Name xml:lang="en">The World Bank</Name>
+        <Prepared>2017-03-27T17:31:44.4818054-04:00</Prepared>
+        <Sender id="WB">
+            <Name xml:lang="en">The Worldbank Group</Name>
+        </Sender>
+    </Header>
+    <DataSet>
+        <generic:KeyFamilyRef>WB_WDI</generic:KeyFamilyRef>
+        <generic:Series>
+            <generic:SeriesKey>
+                <generic:Value concept="FREQ" value="A"/>
+                <generic:Value concept="SERIES" value="PA_NUS_PPP_05"/>
+                <generic:Value concept="REF_AREA" value="ES"/>
+            </generic:SeriesKey>
+            <generic:Obs>
+                <generic:Time>2014</generic:Time>
+                <generic:ObsValue value="1.5"/>
+                <generic:Attributes>
+                    <generic:Value concept="UNIT_MULT" value="0"/>
+                </generic:Attributes>
+            </generic:Obs>
+            <generic:Obs>
+                <generic:Time>2015</generic:Time>
+                <generic:ObsValue value="2"/>
+                <generic:Attributes>
+                    <generic:Value concept="UNIT_MULT" value="0"/>
+                </generic:Attributes>
+            </generic:Obs>
+            <generic:Obs>
+                <generic:Time>2016</generic:Time>
+                <generic:ObsValue value="3"/>
+                <generic:Attributes>
+                    <generic:Value concept="UNIT_MULT" value="0"/>
+                </generic:Attributes>
+            </generic:Obs>
+        </generic:Series>
+    </DataSet>
+</GenericData>

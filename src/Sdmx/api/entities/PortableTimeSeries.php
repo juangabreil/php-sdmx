@@ -272,7 +272,11 @@ class PortableTimeSeries
      */
     private function addKeyValueToCollection($key, $value, array &$collection)
     {
-        $collection[] = trim($key) . '=' . trim($value);
+        $value = trim($key) . '=' . trim($value);
+        if (!in_array($value, $collection)) {
+            $collection[] = $value;
+        }
+
     }
 
     /**

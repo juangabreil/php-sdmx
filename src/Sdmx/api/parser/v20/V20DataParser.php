@@ -83,7 +83,7 @@ class V20DataParser implements DataParser
      */
     private function parseAttributes($series, $portableSeries)
     {
-        $attributes = $series->xpath('./Attributes/Value');
+        $attributes = $series->xpath('.//Attributes/Value');
         foreach ($attributes as $attr) {
             $portableSeries->addAttribute((string)$attr['concept'], (string)$attr['value']);
         }
