@@ -140,6 +140,10 @@ class DotStatClient implements SdmxClient
         $query = $this->queryBuilder->getDataQuery($dataflow, $resource, $options);
         $response = $this->httpClient->get($query);
 
+        if (trim($response) == '') {
+            return [];
+        }
+
         return $this->dataParser->parse($response, $dsd, $dataflow->getId(), true);
     }
 

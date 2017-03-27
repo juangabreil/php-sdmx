@@ -28,14 +28,18 @@ class V21DataParser implements DataParser
         $xml = new SimpleXMLElement($dataWithoutNs);
         $result = [];
 
-        $dataSet = $xml->xpath('//DataSet')[0];
-        $action = (string)$dataSet[self::ACTION];
-        $validFrom = (string)$dataSet[self::VALID_FROM];
-        $validTo = (string)$dataSet[self::VALID_TO];
+        $dataSet = $xml->xpath('//DataSet');
 
-        $series = $dataSet->xpath('./Series');
-        foreach ($series as $seriesLine) {
-            $result[] = $this->parseSeriesLine($seriesLine, $dsd, $dataflow, $containsData, $action, $validFrom, $validTo);
+        if (count($dataSet) > 0) {
+            $dataSet = $dataSet[0];
+            $action = (string)$dataSet[self::ACTION];
+            $validFrom = (string)$dataSet[self::VALID_FROM];
+            $validTo = (string)$dataSet[self::VALID_TO];
+
+            $series = $dataSet->xpath('./Series');
+            foreach ($series as $seriesLine) {
+                $result[] = $this->parseSeriesLine($seriesLine, $dsd, $dataflow, $containsData, $action, $validFrom, $validTo);
+            }
         }
 
         return $result;

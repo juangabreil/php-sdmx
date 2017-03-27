@@ -40,6 +40,10 @@ class V21ParserFixtures
         return file_get_contents(self::getFileUrl(self::QNA_DATA_FILE));
     }
 
+    public static function getErrorData(){
+        return file_get_contents(self::getFileUrl('error'));
+    }
+
     private static function getFileUrl($filename, $suffix = '')
     {
         return __DIR__ . DIRECTORY_SEPARATOR . self::DATA_FOLDER . DIRECTORY_SEPARATOR . $filename . $suffix . self::XML_EXTENSION;

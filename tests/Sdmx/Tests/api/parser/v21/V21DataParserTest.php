@@ -147,6 +147,12 @@ XML;
         $this->assertEquals(['2011-Q1', '2011-Q2', '2011-Q3', '2011-Q4'], $line->getTimeSlots());
     }
 
+    public function testParseErrorData(){
+        $result = $this->parser->parse(V21ParserFixtures::getErrorData(), new DataflowStructure(), 'error', false);
+
+        $this->assertEmpty($result);
+    }
+
     protected function setUp()
     {
         $this->parser = new V21DataParser();

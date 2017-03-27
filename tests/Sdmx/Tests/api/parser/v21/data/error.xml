@@ -1,0 +1,5 @@
+<mes:Error xsi:schemaLocation="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message https://registry.sdmx.org/schemas/v2_1/SDMXMessage.xsd" xmlns:mes="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <mes:ErrorMessage code="110">
+        <com:Text xmlns:com="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common">Query too large, observations for data query=53121  exceeds maximum allowed 2000</com:Text>
+    </mes:ErrorMessage>
+</mes:Error>
