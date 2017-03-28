@@ -305,7 +305,7 @@ class PortableTimeSeries
     public function addObservation($observation, $timeSlot, array $attributes)
     {
         if ($observation == null) {
-            $this->observations[] = NAN;
+            $this->observations[] = null;
         } else {
             $this->observations[] = floatval($observation);
         }

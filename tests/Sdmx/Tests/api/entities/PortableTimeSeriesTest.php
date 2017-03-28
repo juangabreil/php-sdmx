@@ -101,7 +101,7 @@ class PortableTimeSeriesTest extends TestCase
 
         $portableTimeSeries->addObservation('', '2001', ['someKey' => 'someValue']);
 
-        $this->assertNan($portableTimeSeries->getObservations()[0]);
+        $this->assertNull($portableTimeSeries->getObservations()[0]);
     }
 
     public function testAddObservationShouldAddNewTimeSlot()
