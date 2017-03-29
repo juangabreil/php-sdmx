@@ -93,13 +93,13 @@ class DotStatClient implements SdmxClient
     public function getDataflow($dataflow, $agency, $version)
     {
         $url = $this->queryBuilder->getDsdQuery($dataflow, $agency, $version, false);
-        $data = $this->httpClient->get($url);
+        $response = $this->httpClient->get($url);
 
         if (empty($response)) {
             return null;
         }
 
-        $structures = $this->dataStructureParser->parse($data);
+        $structures = $this->dataStructureParser->parse($response);
 
         return count($structures) > 0 ? $this->mapStructureToDataflow($structures[0]) : null;
     }
