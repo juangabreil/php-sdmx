@@ -22,8 +22,8 @@ class RequestHttpClient implements HttpClient
     {
         $headersToSend = array_merge($this->predefinedHeaders, $headers);
         $response =  Requests::get($url, $headersToSend, $options);
-
-        return $response->body;
+        
+        return $response->success ? $response->body : null;
     }
 
     /**
