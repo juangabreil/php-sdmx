@@ -98,6 +98,10 @@ class RestSdmxV21Client implements SdmxClient
         $url = $this->queryBuilder->getDataflowQuery(self::ALL_AGENCIES, self::ALL_FLOWS, self::LATEST_VERSION);
         $response = $this->httpClient->get($url);
 
+        if (empty($response)) {
+            return [];
+        }
+
         return $this->dataflowParser->parse($response);
     }
 
@@ -112,6 +116,11 @@ class RestSdmxV21Client implements SdmxClient
     {
         $url = $this->queryBuilder->getDataflowQuery($agency, $dataflow, $version);
         $response = $this->httpClient->get($url);
+
+        if (empty($response)) {
+            return null;
+        }
+
         $dataflows = $this->dataflowParser->parse($response);
         return count($dataflows) > 0 ? $dataflows[0] : null;
     }
@@ -127,6 +136,11 @@ class RestSdmxV21Client implements SdmxClient
     {
         $url = $this->queryBuilder->getDsdQuery($dsd->getId(), $dsd->getAgency(), $dsd->getVersion(), $full);
         $response = $this->httpClient->get($url);
+
+        if (empty($response)) {
+            return null;
+        }
+
         $dataflowStructures = $this->datastructureParser->parse($response);
 
         return count($dataflowStructures) > 0 ? $dataflowStructures[0] : null;
@@ -143,6 +157,10 @@ class RestSdmxV21Client implements SdmxClient
     {
         $url = $this->queryBuilder->getCodelistQuery($codelist, $agency, $version);
         $response = $this->httpClient->get($url);
+
+        if (empty($response)) {
+            return [];
+        }
 
         return $this->codelistParser->parseCodes($response);
     }
@@ -166,6 +184,10 @@ class RestSdmxV21Client implements SdmxClient
     {
         $query = $this->queryBuilder->getDataQuery($dataflow, $resource, $options);
         $response = $this->httpClient->get($query);
+
+        if (empty($response)) {
+            return [];
+        }
 
         $containsData = array_key_exists('seriesKeysOnly', $options) ? !$options['seriesKeysOnly'] : true;
 

@@ -21,10 +21,10 @@ class V20CodelistParser implements CodelistParser
 
         $codes = $data->xpath('./Code');
 
-        foreach ($codes as $code){
+        foreach ($codes as $code) {
             $name = $code->xpath('./Description[@lang="en"]');
-            if(count($name) > 0){
-                $result[(string) $code['value']] = (string)$name[0];
+            if (count($name) > 0) {
+                $result[(string)$code['value']] = (string)$name[0];
             }
         }
 
@@ -38,7 +38,14 @@ class V20CodelistParser implements CodelistParser
      */
     public function parseCodes($data)
     {
-        $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
+        $xml = null;
+
+        try {
+            $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
+        } catch (\Exception $e) {
+            return [];
+        }
+
         return $this->parseCodesFromNode($xml->xpath('//CodeLists/CodeList')[0]);
     }
 }

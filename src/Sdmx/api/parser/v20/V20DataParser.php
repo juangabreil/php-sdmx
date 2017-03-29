@@ -22,7 +22,15 @@ class V20DataParser implements DataParser
     public function parse($data, DataflowStructure $dsd, $dataflow, $containsData)
     {
         $dataWoNs = ParserUtils::removeNamespaces($data);
-        $xml = new SimpleXMLElement($dataWoNs);
+
+        $xml = null;
+
+        try {
+            $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
+        } catch (\Exception $e) {
+            return [];
+        }
+
         $result = [];
         $series = $xml->xpath('//Series');
         foreach ($series as $seriesLine) {

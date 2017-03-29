@@ -22,8 +22,14 @@ class V21DataflowParser implements DataflowParser
     public function parse($data)
     {
         $result = array();
-        $dataWoNs = ParserUtils::removeNamespaces($data);
-        $xml = new SimpleXMLElement($dataWoNs);
+
+        $xml = null;
+
+        try {
+            $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
+        } catch (\Exception $e) {
+            return [];
+        }
 
         $flows = $xml->xpath('/Structure/Structures/Dataflows/Dataflow');
         foreach ($flows as $flow) {

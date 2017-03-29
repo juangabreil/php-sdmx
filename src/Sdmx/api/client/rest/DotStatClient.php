@@ -67,10 +67,15 @@ class DotStatClient implements SdmxClient
     public function getDataflows()
     {
         $url = $this->queryBuilder->getDsdQuery('all', 'all', 'latest', false);
-        $data = $this->httpClient->get($url);
+        $response = $this->httpClient->get($url);
+
+        if (empty($response)) {
+            return [];
+        }
+
         $result = [];
 
-        $structures = $this->dataStructureParser->parse($data);
+        $structures = $this->dataStructureParser->parse($response);
         foreach ($structures as $structure) {
             $result[] = $this->mapStructureToDataflow($structure);
         }
@@ -90,6 +95,10 @@ class DotStatClient implements SdmxClient
         $url = $this->queryBuilder->getDsdQuery($dataflow, $agency, $version, false);
         $data = $this->httpClient->get($url);
 
+        if (empty($response)) {
+            return null;
+        }
+
         $structures = $this->dataStructureParser->parse($data);
 
         return count($structures) > 0 ? $this->mapStructureToDataflow($structures[0]) : null;
@@ -105,6 +114,11 @@ class DotStatClient implements SdmxClient
     {
         $url = $this->queryBuilder->getDsdQuery($dsd->getId(), $dsd->getAgency(), $dsd->getVersion(), $full);
         $response = $this->httpClient->get($url);
+
+        if (empty($response)) {
+            return null;
+        }
+
         $dataflowStructures = $this->dataStructureParser->parse($response);
 
         return count($dataflowStructures) > 0 ? $dataflowStructures[0] : null;
@@ -140,7 +154,7 @@ class DotStatClient implements SdmxClient
         $query = $this->queryBuilder->getDataQuery($dataflow, $resource, $options);
         $response = $this->httpClient->get($query);
 
-        if (trim($response) == '') {
+        if (empty($response)) {
             return [];
         }
 

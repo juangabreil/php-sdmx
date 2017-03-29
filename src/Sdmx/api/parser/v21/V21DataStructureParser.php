@@ -35,8 +35,13 @@ class V21DataStructureParser implements DataStructureParser
      */
     public function parse($data)
     {
-        $dataWoNs = ParserUtils::removeNamespaces($data);
-        $xml = new SimpleXMLElement($dataWoNs);
+        $xml = null;
+
+        try {
+            $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
+        } catch (\Exception $e) {
+            return [];
+        }
 
         $codelists = $this->parseCodelists($xml);
         $concepts = $this->parseConcepts($xml);

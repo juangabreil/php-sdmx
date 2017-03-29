@@ -37,8 +37,14 @@ class V21CodelistParser implements CodelistParser
      */
     public function parseCodes($data)
     {
-        $dataWoNs = ParserUtils::removeNamespaces($data);
-        $xml = new SimpleXMLElement($dataWoNs);
+        $xml = null;
+
+        try {
+            $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
+        } catch (\Exception $e) {
+            return [];
+        }
+
         $codelist = $xml->xpath('/Structure/Structures/Codelists/Codelist')[0];
 
         return $this->parseCodesFromNode($codelist);

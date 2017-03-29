@@ -24,8 +24,15 @@ class V21DataParser implements DataParser
      */
     public function parse($data, DataflowStructure $dsd, $dataflow, $containsData)
     {
-        $dataWithoutNs = ParserUtils::removeNamespaces($data);
-        $xml = new SimpleXMLElement($dataWithoutNs);
+
+        $xml = null;
+
+        try {
+            $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
+        } catch (\Exception $e) {
+            return [];
+        }
+
         $result = [];
 
         $dataSet = $xml->xpath('//DataSet');

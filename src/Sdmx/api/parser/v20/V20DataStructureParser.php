@@ -35,7 +35,13 @@ class V20DataStructureParser implements DataStructureParser
      */
     public function parse($data)
     {
-        $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
+        $xml = null;
+
+        try {
+            $xml = new SimpleXMLElement(ParserUtils::removeNamespaces($data));
+        } catch (\Exception $e) {
+            return [];
+        }
 
         $codelists = $this->parseCodelists($xml);
         $concepts = $this->parseConcepts($xml);
