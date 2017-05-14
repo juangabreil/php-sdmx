@@ -288,6 +288,10 @@ class PortableTimeSeries
         return $this->findValue($code, $this->dimensions);
     }
 
+    /**
+     * @param string $code
+     * @param string $value
+     */
     public function setDimensionValue($code, $value)
     {
         for ($i = 0; $i < count($this->dimensions); $i++) {
@@ -298,8 +302,6 @@ class PortableTimeSeries
                 break;
             }
         }
-
-        return $value;
     }
 
     /**
