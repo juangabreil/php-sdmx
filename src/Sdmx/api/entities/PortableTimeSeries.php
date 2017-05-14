@@ -288,6 +288,20 @@ class PortableTimeSeries
         return $this->findValue($code, $this->dimensions);
     }
 
+    public function setDimensionValue($code, $value)
+    {
+        for ($i = 0; $i < count($this->dimensions); $i++) {
+            $element = $this->dimensions[$i];
+            $tokens = explode('=', $element);
+            if ($tokens[0] === $code) {
+                $this->dimensions[$i] = "$code=$value";
+                break;
+            }
+        }
+
+        return $value;
+    }
+
     /**
      * @param string $key
      * @param string $value
