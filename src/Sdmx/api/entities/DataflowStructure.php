@@ -40,6 +40,12 @@ class DataflowStructure
     private $dimensions;
 
     /**
+     * Hash string => Attribute
+     * @var Attribute[]
+     */
+    private $attributes;
+
+    /**
      * @var string $measure
      */
     private $measure = self::DEFAULT_MEASURE;
@@ -180,6 +186,48 @@ class DataflowStructure
     public function getDimensionById($id)
     {
         return $this->dimensions[$id];
+    }
+
+    /**
+     * @param Attribute $attribute
+     */
+    public function setAttribute($attribute)
+    {
+        $this->attributes[$attribute->getId()] = $attribute;
+    }
+
+    /**
+     * @param string $id
+     * @return bool
+     */
+    public function hasAttribute($id)
+    {
+        return array_key_exists($id, $this->attributes);
+    }
+
+    /**
+     * @param string $id
+     * @return Attribute
+     */
+    public function getAttributeById($id)
+    {
+        return $this->attributes[$id];
+    }
+
+    /**
+     * @return Attribute[]
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param Attribute[] $attributes
+     */
+    public function setAttributes($attributes)
+    {
+        $this->attributes = $attributes;
     }
 
     /**

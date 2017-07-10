@@ -57,6 +57,9 @@ class V21DataStructureParserTest extends TestCase
         $this->checkDimension($dimensions[6], 'EDU_LEVEL', 'Level of education', 7);
         $this->checkCodelist($dimensions[6]->getCodelist(), 'CL_EDU_LEVEL', '1.0', 'UNESCO');
 
+        $attributes = $datastructure->getAttributes();
+        $this->assertEquals(4, count($attributes));
+
         $this->checkRefCodes($dimensions);
     }
 

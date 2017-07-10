@@ -3,6 +3,7 @@
 namespace Sdmx\api\parser\v21;
 
 
+use Sdmx\api\entities\Attribute;
 use Sdmx\api\entities\Codelist;
 use Sdmx\api\entities\DataflowStructure;
 use Sdmx\api\entities\Dimension;
@@ -130,6 +131,7 @@ class V21DataStructureParser implements DataStructureParser
 
         $this->fillDsMainData($structure, $flowStructure);
         $this->fillDsDimensionData($structure, $flowStructure, $codelists, $concepts);
+        $this->fillDsAttributesData($structure, $flowStructure, $codelists, $concepts);
 
         return $flowStructure;
     }
@@ -169,6 +171,30 @@ class V21DataStructureParser implements DataStructureParser
             }
 
             $flowStructure->setDimension($parsedDimension);
+        }
+        $flowStructure->setTimeDimension($this->parseTimeDimension($structure));
+    }
+
+    /**
+     * @param SimpleXMLElement $structure
+     * @param DataflowStructure $flowStructure
+     * @param array $codelists
+     * @param array $concepts
+     */
+    private function fillDsAttributesData(SimpleXMLElement $structure, DataflowStructure $flowStructure, array $codelists, array $concepts)
+    {
+        $attributes = $structure->xpath('./DataStructureComponents/AttributeList/Attribute');
+        $position = 0;
+        foreach ($attributes as $attribute) {
+            $parsedAttribute = $this->parseAttribute($attribute, $concepts);
+            $codelist = $parsedAttribute->getCodelist();
+            $codelistIdentifier = $codelist->getFullIdentifier();
+
+            if (array_key_exists($codelistIdentifier, $codelists)) {
+                $codelist->setCodes($codelists[$codelistIdentifier]);
+            }
+
+            $flowStructure->setAttribute($parsedAttribute);
         }
         $flowStructure->setTimeDimension($this->parseTimeDimension($structure));
     }
@@ -220,6 +246,64 @@ class V21DataStructureParser implements DataStructureParser
     private function getDimensionName(SimpleXMLElement $dimension, array $concepts)
     {
         $concept = $dimension->xpath('./ConceptIdentity/Ref');
+
+        if (count($concept) == 0) {
+            return '';
+        }
+        $concept = $concept[0];
+        $id = (string)$concept['id'];
+        $agency = (string)$concept['agencyID'];
+        $version = (string)$concept['maintainableParentVersion'];
+        $conceptName = $agency . '/' . $id . '/' . $version;
+
+        return array_key_exists($conceptName, $concepts) ? $concepts[$conceptName] : $id;
+    }
+
+    /**
+     * @param SimpleXMLElement $attribute
+     * @param array $concepts
+     * @return Attribute
+     */
+    private function parseAttribute(SimpleXMLElement $attribute, array $concepts)
+    {
+        $result = new Attribute();
+
+        $result->setId((string)$attribute['id']);
+        $result->setCodelist($this->parseAttributeCodeList($attribute));
+        $result->setName($this->getAttributeName($attribute, $concepts));
+
+        return $result;
+    }
+
+    /**
+     * @param SimpleXMLElement $attribute
+     * @return Codelist
+     */
+    private function parseAttributeCodeList(SimpleXMLElement $attribute)
+    {
+        $localRepresentation = $attribute->xpath('./LocalRepresentation/Enumeration/Ref');
+
+        if (count($localRepresentation) == 0) {
+            return null;
+        }
+
+        $localRepresentation = $localRepresentation[0];
+        $codelist = new Codelist();
+        $codelist->setId((string)$localRepresentation['id']);
+        $codelist->setAgency((string)$localRepresentation['agencyID']);
+        $codelist->setVersion((string)$localRepresentation['version']);
+
+        return $codelist;
+    }
+
+    /**
+     * @param SimpleXMLElement $attribute
+     * @param array $concepts
+     * @return string
+     */
+    private function getAttributeName(SimpleXMLElement $attribute, array $concepts)
+    {
+        $concept = $attribute->xpath('./ConceptIdentity/Ref');
 
         if (count($concept) == 0) {
             return '';
