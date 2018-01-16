@@ -60,6 +60,7 @@ class SdmxClientFactory
         $codelistParser = new V20CodelistParser();
         $queryBuilder = new WorldBankQueryBuilder(self::WB_URL);
         $httpClient = new RequestHttpClient();
+        $httpClient->setPredefinedHeaders(array());
         $datastructureParser = new V20DataStructureParser($codelistParser);
         $dataParser = new V20DataParser();
 
