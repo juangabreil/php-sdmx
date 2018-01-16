@@ -10,7 +10,10 @@ class RequestHttpClient implements HttpClient
     /**
      * @var array $predefinedHeaders
      */
-    private $predefinedHeaders = [];
+    private $predefinedHeaders = array(
+        'Accept' => 'application/xml',
+        'Accept-Encoding' => 'gzip'
+    );
 
     /**
      * @param string $url
@@ -18,7 +21,7 @@ class RequestHttpClient implements HttpClient
      * @param array $options
      * @return string
      */
-    public function get($url, $headers = array('Accept' => 'application/xml', 'Accept-Encoding' => 'gzip'), $options = array())
+    public function get($url, $headers = array(), $options = array())
     {
         $headersToSend = array_merge($this->predefinedHeaders, $headers);
         $response =  Requests::get($url, $headersToSend, $options);
